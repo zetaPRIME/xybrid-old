@@ -34,6 +34,41 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\Dependencies\MonoGame\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.Direct3D9.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.MediaFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.RawInput">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.RawInput.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XAudio2">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.XAudio2.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.XInput.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
