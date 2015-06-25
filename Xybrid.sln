@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xybrid", "Xybrid\Xybrid.csproj", "{8FBB0F66-4567-4EA6-859A-4E387C73BC15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xynapse", "Xynapse\Xynapse.csproj", "{AC41A304-B31F-4F09-8774-6044E5FD176B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8FBB0F66-4567-4EA6-859A-4E387C73BC15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FBB0F66-4567-4EA6-859A-4E387C73BC15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FBB0F66-4567-4EA6-859A-4E387C73BC15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FBB0F66-4567-4EA6-859A-4E387C73BC15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC41A304-B31F-4F09-8774-6044E5FD176B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC41A304-B31F-4F09-8774-6044E5FD176B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC41A304-B31F-4F09-8774-6044E5FD176B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC41A304-B31F-4F09-8774-6044E5FD176B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
