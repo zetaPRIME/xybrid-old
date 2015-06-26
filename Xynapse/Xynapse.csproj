@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AC41A304-B31F-4F09-8774-6044E5FD176B}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Xynapse</RootNamespace>
     <AssemblyName>Xynapse</AssemblyName>
@@ -31,8 +31,59 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data Types\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MonoGameControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MonoGameControl.Designer.cs">
+      <DependentUpon>MonoGameControl.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\Dependencies\MonoGame\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.Direct3D9.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.MediaFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.RawInput">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.RawInput.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XAudio2">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.XAudio2.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput">
+      <HintPath>..\Dependencies\SharpDX\SharpDX.XInput.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

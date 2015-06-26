@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8FBB0F66-4567-4EA6-859A-4E387C73BC15}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Xybrid</RootNamespace>
     <AssemblyName>Xybrid</AssemblyName>
@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -30,6 +30,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Xybrid.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -66,8 +69,30 @@
       <HintPath>..\Dependencies\SharpDX\SharpDX.XInput.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Xybrid\UI\UIHandler.cs" />
+    <Compile Include="Xybrid\UI\UIForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Xybrid\UI\UIForm.Designer.cs">
+      <DependentUpon>UIForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xynapse\Xynapse.csproj">
+      <Project>{ac41a304-b31f-4f09-8774-6044e5fd176b}</Project>
+      <Name>Xynapse</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xybrid\UI\UIForm.resx">
+      <DependentUpon>UIForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
