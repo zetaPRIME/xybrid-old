@@ -21,6 +21,8 @@ namespace Xybrid {
             Load += OnLoad;
             num = n;
 
+            Resize += cOnResize;
+
             FormClosed += (Object s, FormClosedEventArgs e) => {
                 closed = true;
             };
@@ -30,25 +32,29 @@ namespace Xybrid {
         Thread t = null;
         bool closed = false;
 
+        UIHandler game = null;
+
         void OnLoad(Object sender, EventArgs e) {
             Debug.WriteLine("onload");
             InitializeComponent();
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
             if (this.DesignMode == false) {
                 WindowsDeviceConfig.UseForm = false;
                 WindowsDeviceConfig.ControlToUse = this;
 
-                MyGame game = new MyGame(this);
+                game = new UIHandler(this);
                 game.num = num;
                 game.IsFixedTimeStep = false;
 
                 t = new Thread(new ThreadStart(() => {
                     while (true) {
-                        if (this.closed) return;
-                        this.Invoke(new MethodInvoker(() => {
-                            game.RunOneFrame();
-                        }));
+                        try {
+                            this.Invoke(new MethodInvoker(() => {
+                                game.RunOneFrame();
+                            }));
+                        }
+                        catch (Exception ex) { return; }
 
                         Thread.Sleep(16);
                     }
@@ -58,6 +64,11 @@ namespace Xybrid {
                 //t.Name = "Monogame Thread";
                 t.Start();
             }
+        }
+        void cOnResize(Object sender, EventArgs e) {
+            game.graphics.PreferredBackBufferWidth = this.ClientSize.Width;
+            game.graphics.PreferredBackBufferHeight = this.ClientSize.Height;
+            game.graphics.ApplyChanges();
         }
     }
 }

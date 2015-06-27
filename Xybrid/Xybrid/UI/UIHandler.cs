@@ -38,7 +38,7 @@ namespace Xybrid {
         UIForm form;
         public int num = 0;
 
-        public MyGame(UIForm f) {
+        public UIHandler(UIForm f) {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content/Native";
             form = f;
@@ -54,7 +54,18 @@ namespace Xybrid {
             form.Controls.Add(pan);
         }
 
+        bool ainit = false;
+        RenderTarget2D blah;
         protected override void Draw(GameTime gameTime) {
+            if (!ainit) {
+                ainit = true;
+
+                blah = new RenderTarget2D(spriteBatch.GraphicsDevice, 1, 1);
+                spriteBatch.GraphicsDevice.SetRenderTarget(blah);
+                spriteBatch.GraphicsDevice.Clear(Color.White);
+                spriteBatch.GraphicsDevice.SetRenderTarget(null);
+            }
+
             Debug.WriteLine("draw " + num + " window " + form.Handle);
             WindowsDeviceConfig.ControlToUse = form;
 
@@ -66,6 +77,9 @@ namespace Xybrid {
                 spriteBatch.GraphicsDevice.Clear(Color.Blue);
                 Debug.WriteLine("cleared " + num + ", " );
             }
+            spriteBatch.Begin();
+            spriteBatch.Draw(blah, new Rectangle(88, 88, 88, 88), new Color(127, 0, 255));
+            spriteBatch.End();
 
 
             base.Draw(gameTime);

@@ -37,16 +37,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Data Types\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="MonoGameControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="MonoGameControl.Designer.cs">
-      <DependentUpon>MonoGameControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Data Types\PCMBuffer.cs" />
+    <Compile Include="Interop\Host\HostInterop.cs" />
+    <Compile Include="UI\Drawable.cs" />
+    <Compile Include="UI\DrawContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
