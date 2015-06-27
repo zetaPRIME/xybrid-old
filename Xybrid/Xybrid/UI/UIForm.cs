@@ -14,6 +14,8 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using MonoGame.Framework;
 
+using Xybrid.UI;
+
 namespace Xybrid {
     public partial class UIForm : Form {
         public UIForm(int n) {
@@ -24,13 +26,12 @@ namespace Xybrid {
             Resize += cOnResize;
 
             FormClosed += (Object s, FormClosedEventArgs e) => {
-                closed = true;
+                UIManager.windows.Remove(game);
             };
         }
 
         int num;
         Thread t = null;
-        bool closed = false;
 
         UIHandler game = null;
 
@@ -46,8 +47,9 @@ namespace Xybrid {
                 game = new UIHandler(this);
                 game.num = num;
                 game.IsFixedTimeStep = false;
+                UIManager.windows.Add(game);
 
-                t = new Thread(new ThreadStart(() => {
+                /*t = new Thread(new ThreadStart(() => {
                     while (true) {
                         try {
                             this.Invoke(new MethodInvoker(() => {
@@ -62,7 +64,7 @@ namespace Xybrid {
 
                 t.IsBackground = true;
                 //t.Name = "Monogame Thread";
-                t.Start();
+                t.Start();*/
             }
         }
         void cOnResize(Object sender, EventArgs e) {

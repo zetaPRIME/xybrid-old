@@ -12,15 +12,21 @@ namespace Xynapse.Interop.Host {
         public static void LockIn() { locked = true; } // call when host is done placing hooks
         static bool locked = false;
 
-        private static Func<Drawable, string> _loadThemeImage;
-        public static Func<Drawable, string> loadThemeImage {
+        private static Func<string, Drawable> _loadThemeImage;
+        public static Func<string, Drawable> loadThemeImage {
             get { return _loadThemeImage; }
             set { if (!locked) _loadThemeImage = value; }
         }
-        private static Func<Drawable, Assembly, string> _loadPluginImage;
-        public static Func<Drawable, Assembly, string> loadPluginImage {
+        private static Func<string, Assembly, Drawable> _loadPluginImage;
+        public static Func<string, Assembly, Drawable> loadPluginImage {
             get { return _loadPluginImage; }
             set { if (!locked) _loadPluginImage = value; }
+        }
+
+        private static Func<int, int, DrawableCanvas> _getCanvas;
+        public static Func<int, int, DrawableCanvas> getCanvas {
+            get { return _getCanvas; }
+            set { if (!locked) _getCanvas = value; }
         }
     }
 }

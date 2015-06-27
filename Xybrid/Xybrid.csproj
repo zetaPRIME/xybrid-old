@@ -82,6 +82,7 @@
     <Compile Include="Xybrid\UI\UIForm.Designer.cs">
       <DependentUpon>UIForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Xybrid\UI\UIManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Xynapse\Xynapse.csproj">

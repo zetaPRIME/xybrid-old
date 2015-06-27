@@ -12,6 +12,8 @@ using SharpDX.XAudio2;
 
 using Xynapse;
 
+using Xybrid.UI;
+
 namespace Xybrid {
     public class Program {
         static void Main(string[] args) {
@@ -25,17 +27,18 @@ namespace Xybrid {
             Button b = new Button();
             b.SetBounds(48, 48, 48, 48);
             b.Click += (Object s, EventArgs e) => {
-                Application.Exit();
+                //Application.Exit();
+                new UIForm(1).Show();
             };
             f2.Controls.Add(b);
 
             f2.Show();
+
+            UIManager.SpawnUIUpdateThread();
             Application.Run(f1);
-            
-            
-            //new Microsoft.Xna.Framework.Game().Window.
-            
-            
+
+            bool yes = true;
+            if (yes) return;
 
             //
             XAudio2 audio = new XAudio2();
