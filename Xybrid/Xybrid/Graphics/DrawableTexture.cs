@@ -14,14 +14,11 @@ namespace Xybrid.Graphics {
         Texture2D texture;
         public DrawableTexture(Texture2D texture) { this.texture = texture; }
 
-        public override void Draw(DrawContext context) {
-            SpriteBatch sb = new SpriteBatch(UIHandler.graphicsDevice);
-            //sb.Draw(texture, )
-            
+        public override void Draw(DrawContext context, PxRect rect, PxRect? sampleRect = null, DrawColor? color = null) {
             throw new NotImplementedException();
         }
 
-        public override void SetAlign(float x, float y) {
+        public override void Draw(DrawContext context, FxVector position, FxVector? align = null, PxRect? sampleRect = null, DrawColor? color = null, float rotation = 0, FxVector? scale = null) {
             throw new NotImplementedException();
         }
     }

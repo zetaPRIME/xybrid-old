@@ -36,7 +36,7 @@ namespace Xybrid {
             UIHandler.instance.IsFixedTimeStep = false;
             UIHandler.instance.RunOneFrame();
 
-            GraphicsManager.graphics = UIHandler.graphicsDevice; // temp, will refactor later
+            GraphicsManager.device = UIHandler.graphicsDevice; // temp, will refactor later
             GraphicsManager.Init();
             ThemeManager.LoadDefault();
             InteropManager.Init();

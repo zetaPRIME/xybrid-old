@@ -13,7 +13,7 @@ using Xybrid.Util;
 
 namespace Xybrid.Graphics {
     public static class GraphicsManager {
-        public static GraphicsDevice graphics;
+        public static GraphicsDevice device;
 
         static BlendState blendColor, blendAlpha;
 
@@ -42,13 +42,13 @@ namespace Xybrid.Graphics {
             // code borrowed from http://jakepoz.com/jake_poznanski__speeding_up_xna.html
 
             // Set up a render target to hold our final texture which will have premulitplied alpha values
-            RenderTarget2D result = new RenderTarget2D(graphics, texture.Width, texture.Height);
+            RenderTarget2D result = new RenderTarget2D(device, texture.Width, texture.Height);
 
-            graphics.SetRenderTarget(result);
-            graphics.Clear(Color.Black);
+            device.SetRenderTarget(result);
+            device.Clear(Color.Black);
 
             // Multiply each color by the source alpha, and write in just the color values into the final texture
-            SpriteBatch spriteBatch = new SpriteBatch(graphics);
+            SpriteBatch spriteBatch = new SpriteBatch(device);
             spriteBatch.Begin(SpriteSortMode.Immediate, blendColor);
             spriteBatch.Draw(texture, texture.Bounds, Color.White);
             spriteBatch.End();
@@ -59,7 +59,7 @@ namespace Xybrid.Graphics {
             spriteBatch.End();
 
             // Release the GPU back to drawing to the screen
-            graphics.SetRenderTarget(null);
+            device.SetRenderTarget(null);
 
             return result as Texture2D;
         }

@@ -38,11 +38,11 @@ namespace Xybrid.Graphics {
             throw new NotImplementedException();
         }
 
-        public override void Draw(DrawContext context) {
+        public override void Draw(DrawContext context, PxRect rect, PxRect? sampleRect = null, DrawColor? color = null) {
             throw new NotImplementedException();
         }
 
-        public override void SetAlign(float x, float y) {
+        public override void Draw(DrawContext context, FxVector position, FxVector? align = null, PxRect? sampleRect = null, DrawColor? color = null, float rotation = 0, FxVector? scale = null) {
             throw new NotImplementedException();
         }
     }
