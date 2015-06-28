@@ -54,52 +54,27 @@
     <Compile Include="! LibInc\LitJson\JsonWriter.cs" />
     <Compile Include="! LibInc\LitJson\Lexer.cs" />
     <Compile Include="! LibInc\LitJson\ParserToken.cs" />
+    <Compile Include="Data Types\Command.cs" />
+    <Compile Include="Data Types\CommandBuffer.cs" />
     <Compile Include="Data Types\PCMBuffer.cs" />
     <Compile Include="Interop\Host\HostInterop.cs" />
     <Compile Include="UI\Drawable.cs" />
     <Compile Include="UI\DrawableCanvas.cs" />
     <Compile Include="UI\DrawContext.cs" />
+    <Compile Include="UI\PxVector.cs" />
     <Compile Include="UI\UIContainer.cs" />
     <Compile Include="UI\UIControl.cs" />
     <Compile Include="UI\WindowBase.cs" />
+    <Compile Include="Util\ListAccessor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework">
-      <HintPath>..\Dependencies\MonoGame\MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX">
-      <HintPath>..\Dependencies\SharpDX\SharpDX.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct2D1">
-      <HintPath>..\Dependencies\SharpDX\SharpDX.Direct2D1.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D11">
-      <HintPath>..\Dependencies\SharpDX\SharpDX.Direct3D11.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Direct3D9">
-      <HintPath>..\Dependencies\SharpDX\SharpDX.Direct3D9.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.DXGI">
-      <HintPath>..\Dependencies\SharpDX\SharpDX.DXGI.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.MediaFoundation">
-      <HintPath>..\Dependencies\SharpDX\SharpDX.MediaFoundation.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.RawInput">
-      <HintPath>..\Dependencies\SharpDX\SharpDX.RawInput.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.XAudio2">
-      <HintPath>..\Dependencies\SharpDX\SharpDX.XAudio2.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.XInput">
-      <HintPath>..\Dependencies\SharpDX\SharpDX.XInput.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Xybrid.UI {
     public static class UIManager {
-        public static List<UIHandler> windows = new List<UIHandler>();
+        public static List<UIForm> windows = new List<UIForm>();
 
         static Thread mainThread = null;
         static Thread uiUpdateThread = null;
@@ -34,11 +34,11 @@ namespace Xybrid.UI {
                     Thread.Sleep(16);
                 }
             }
-            catch (Exception ex) { }
+            catch { }
         }
         static void RunUIUpdate() {
-            List<UIHandler> tmpwin = new List<UIHandler>(windows); // copy
-            foreach (UIHandler win in tmpwin) win.RunOneFrame();
+            List<UIForm> tmpwin = new List<UIForm>(windows); // copy
+            foreach (UIForm win in tmpwin) UIHandler.RunFrame(win); //win.form.Invoke(new MethodInvoker(win.RunOneFrame));
         }
 
     }

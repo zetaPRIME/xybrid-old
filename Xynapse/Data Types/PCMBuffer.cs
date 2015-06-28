@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Xynapse.DataTypes {
     public struct PCMBuffer {
-        List<List<double>> data;
+        List<double[]> data;
         int sampleRate;
 
         /*public PCMBuffer(int sampleRate = -1, int numChannels = 1) {
@@ -16,13 +16,13 @@ namespace Xynapse.DataTypes {
         public PCMBuffer(bool nothing = false) {
             sampleRate = -1;
             _sampleLength = -1;
-            data = new List<List<double>>();
+            data = new List<double[]>();
         }
-        public PCMBuffer(int sampleRate, params List<double>[] data) {
+        public PCMBuffer(int sampleRate, params double[][] data) {
             this.sampleRate = sampleRate;
             _sampleLength = -1;
-            this.data = new List<List<double>>();
-            foreach (List<double> ch in data) this.data.Add(new List<double>(ch));
+            this.data = new List<double[]>();
+            foreach (double[] ch in data) this.data.Add(new List<double>(ch).ToArray());
 
         }
 
@@ -32,7 +32,7 @@ namespace Xynapse.DataTypes {
                 if (_sampleLength != -1) return _sampleLength;
 
                 _sampleLength = 0;
-                foreach (List<double> ch in data) if (ch.Count > _sampleLength) _sampleLength = ch.Count;
+                foreach (double[] ch in data) if (ch.Length > _sampleLength) _sampleLength = ch.Length;
                 return _sampleLength;
             }
         }
@@ -64,19 +64,20 @@ namespace Xynapse.DataTypes {
                 int ch = left.data.Count;
                 for (int i = 0; i < ch; i++) {
                     fdata.Add(new List<double>());
-                    if (left.data[i].Count > length) length = left.data[i].Count;
-                    if (right.data[i].Count > length) length = right.data[i].Count;
+                    if (left.data[i].Length > length) length = left.data[i].Length;
+                    if (right.data[i].Length > length) length = right.data[i].Length;
                 }
                 for (int c = 0; c < ch; c++) {
                     double res = 0;
                     for (int i = 0; i < length; i++) {
-                        if (left.data[c].Count > i) res += left.data[c][i];
-                        if (right.data[c].Count > i) res += right.data[c][i];
+                        if (left.data[c].Length > i) res += left.data[c][i];
+                        if (right.data[c].Length > i) res += right.data[c][i];
                         fdata[c].Add(res);
                     }
                 }
                 PCMBuffer b = new PCMBuffer(sampleRate);
-                b.data = fdata;
+                b.data = new List<double[]>();
+                foreach (List<double> cht in fdata) b.data.Add(cht.ToArray());
                 return b;
             }
             else if (left.data.Count < 3 && right.data.Count < 3) {
@@ -91,16 +92,16 @@ namespace Xynapse.DataTypes {
             if (mult == 1.0) return pcm;
             if (mult == 0.0) {
                 PCMBuffer zb = new PCMBuffer(pcm.sampleRate);
-                double[] silence = new double[pcm.SampleLength];
-                foreach (List<double> c in pcm.data) zb.data.Add(new List<double>(silence));
+                //double[] silence = new double[pcm.SampleLength];
+                foreach (double[] c in pcm.data) zb.data.Add(new double[pcm.SampleLength]);
                 return zb;
             }
 
             PCMBuffer b = new PCMBuffer(pcm.sampleRate);
-            foreach (List<double> ch in pcm.data) {
+            foreach (double[] ch in pcm.data) {
                 List<double> nc = new List<double>();
-                b.data.Add(nc);
-                for (int i = 0; i < ch.Count; i++) nc.Add(ch[i] * mult);
+                for (int i = 0; i < ch.Length; i++) nc.Add(ch[i] * mult);
+                b.data.Add(nc.ToArray());
             }
 
             return pcm;
@@ -112,19 +113,22 @@ namespace Xynapse.DataTypes {
         }
         void pad() { // if channel lengths are mismatched, pad to longest
             int sl = SampleLength;
-            foreach (List<double> ch in data) ch.AddRange(new double[sl - ch.Count]);
+            for (int i = 0; i < data.Count; i++) {
+                if (data[i].Length != sl) {
+                    double[] ch = data[i];
+                    Array.Resize(ref ch, sl);//ch.AddRange(new double[sl - ch.Count]);
+                    data[i] = ch;
+                }
+            }
         }
 
         public PCMBuffer Delay(int samples) {
-            PCMBuffer b = new PCMBuffer(sampleRate);
-            b.data = new List<List<double>>();
-            
-            for (int c = 0; c < data.Count; c++) {
-                b.data.Add(new List<double>(data[c]));
+            double[] silence = new double[samples];
 
-                double[] silence = new double[samples];
-                b.data[c].InsertRange(0, silence);
-            }
+            PCMBuffer b = new PCMBuffer(sampleRate);
+            b.data = new List<double[]>();
+            
+            for (int c = 0; c < data.Count; c++) b.data.Add(silence.Concat(data[c]).ToArray());
             b.pad();
 
             return b;

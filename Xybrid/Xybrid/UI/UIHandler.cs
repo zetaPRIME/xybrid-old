@@ -32,50 +32,78 @@ namespace Xybrid {
             return WindowFromPoint(ptCursor);
         }
 
-        public SpriteBatch spriteBatch;
-        public GraphicsDeviceManager graphics;
+        public static UIHandler instance;
+        public static ContainerControl control;
 
-        UIForm form;
+        public static SpriteBatch spriteBatch;
+        public GraphicsDeviceManager graphics;
+        public static GraphicsDevice graphicsDevice;
+
+        public UIForm currentForm;
         public int num = 0;
 
-        public UIHandler(UIForm f) {
+        public UIHandler() {
+            instance = this;
+
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content/Native";
-            form = f;
+            //Content.RootDirectory = "Content/Native";
+            //form = f;
+        }
+
+        public static void RunFrame(UIForm form) {
+            instance.currentForm = form;
+            instance.RunOneFrame();
         }
 
         protected override void LoadContent() {
-            Debug.WriteLine("loadcontent " + num);
+            //Debug.WriteLine("loadcontent " + num);
+            graphicsDevice = GraphicsDevice;
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             IsMouseVisible = true;
 
-            Panel pan = new Panel();
-            pan.SetBounds(32, 32, 32, 32);
-            form.Controls.Add(pan);
+            //Panel pan = new Panel();
+            //pan.SetBounds(32, 32, 32, 32);
+            //form.Controls.Add(pan);
+        }
+
+        protected override bool BeginDraw() {
+            if (currentForm == null) return true;
+            GraphicsDevice.SetRenderTarget(currentForm.target);
+            System.Drawing.Rectangle r = currentForm.ClientRectangle;
+            control.Location = new System.Drawing.Point(r.X, r.Y);
+            control.Size = new System.Drawing.Size(r.Width, r.Height);
+            return true;
         }
 
         bool ainit = false;
-        RenderTarget2D blah;
+        static RenderTarget2D blah;
         protected override void Draw(GameTime gameTime) {
             if (!ainit) {
                 ainit = true;
 
-                blah = new RenderTarget2D(spriteBatch.GraphicsDevice, 1, 1);
-                spriteBatch.GraphicsDevice.SetRenderTarget(blah);
-                spriteBatch.GraphicsDevice.Clear(Color.White);
-                spriteBatch.GraphicsDevice.SetRenderTarget(null);
+                blah = new RenderTarget2D(GraphicsDevice, 1, 1);
+                GraphicsDevice.SetRenderTarget(blah);
+                GraphicsDevice.Clear(Color.White);
+
+                
+                
+                return;
             }
 
-            Debug.WriteLine("draw " + num + " window " + form.Handle);
-            WindowsDeviceConfig.ControlToUse = form;
+            //Debug.WriteLine("drawing " + currentForm.Handle);
+            //GraphicsDevice.SetRenderTarget(currentForm.target);
+
+            //Debug.WriteLine("draw " + num + " window " + form.Handle);
+            //WindowsDeviceConfig.ControlToUse = form;
 
             MouseState ms = Mouse.GetState(Window);
-            spriteBatch.GraphicsDevice.Clear(new Color((float)ms.Position.X / Window.ClientBounds.Width, 0f, 0f));
+            System.Drawing.Point mp = currentForm.PointToClient(new System.Drawing.Point(ms.X, ms.Y));
+            spriteBatch.GraphicsDevice.Clear(new Color((float)mp.X / currentForm.ClientRectangle.Width, 0f, 0f));
             KeyboardState ks = Keyboard.GetState();
             if (ks.IsKeyDown(Keys.A)) spriteBatch.GraphicsDevice.Clear(new Color(0f, 1f, 0f));
-            if (GetWindowUnderCursor() == form.Handle) {
+            if (GetWindowUnderCursor() == currentForm.Handle) {
                 spriteBatch.GraphicsDevice.Clear(Color.Blue);
-                Debug.WriteLine("cleared " + num + ", " );
+                //Debug.WriteLine("cleared " + num + ", " );
             }
             spriteBatch.Begin();
             spriteBatch.Draw(blah, new Rectangle(88, 88, 88, 88), new Color(127, 0, 255));
@@ -83,6 +111,11 @@ namespace Xybrid {
 
 
             base.Draw(gameTime);
+        }
+
+        protected override void EndDraw() {
+            if (currentForm != null) currentForm.target.Present();
+            //GraphicsDevice.Present();
         }
     }
 }

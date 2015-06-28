@@ -75,6 +75,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="Xybrid\Graphics\Canvas.cs" />
+    <Compile Include="Xybrid\InteropManager.cs" />
     <Compile Include="Xybrid\UI\UIHandler.cs" />
     <Compile Include="Xybrid\UI\UIForm.cs">
       <SubType>Form</SubType>

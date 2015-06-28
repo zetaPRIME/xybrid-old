@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,8 @@ using System.Windows.Forms;
 using SharpDX;
 using SharpDX.Multimedia;
 using SharpDX.XAudio2;
+
+using MonoGame.Framework;
 
 using Xynapse;
 
@@ -21,16 +24,48 @@ namespace Xybrid {
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new UIForm());
 
+
+            ContainerControl p = new ContainerControl();
+            p.CreateControl();
+
+            WindowsDeviceConfig.UseForm = false;
+            WindowsDeviceConfig.ControlToUse = p;
+            new UIHandler();
+            UIHandler.control = p;
+            UIHandler.instance.IsFixedTimeStep = false;
+            UIHandler.instance.RunOneFrame();
+
             UIForm f1 = new UIForm(1);
             UIForm f2 = new UIForm(2);
 
             Button b = new Button();
             b.SetBounds(48, 48, 48, 48);
             b.Click += (Object s, EventArgs e) => {
-                //Application.Exit();
-                new UIForm(1).Show();
+                new UIForm(32).Show();
             };
-            f2.Controls.Add(b);
+            /*b.Click += (Object s, EventArgs e) => {
+                UIManager.windows.Remove(f2.game);
+                MonoGame.Framework.WindowsDeviceConfig.UseForm = false;
+                MonoGame.Framework.WindowsDeviceConfig.ControlToUse = f2;
+                f2.game = new UIHandler(f2);
+                f2.game.IsFixedTimeStep = false;
+                UIManager.windows.Add(f2.game);
+
+                return;
+
+                UIForm u = new UIForm(1);
+                u.StartPosition = FormStartPosition.Manual;
+
+                u.Show();
+                u.FormBorderStyle = FormBorderStyle.None;
+                u.ClientSize = new Size(256, 256);
+                //u.MaximumSize = new Size(256, 256);
+
+                u.Location = new System.Drawing.Point(256, 256);
+                
+                
+            };*/
+            f1.Controls.Add(b);
 
             f2.Show();
 

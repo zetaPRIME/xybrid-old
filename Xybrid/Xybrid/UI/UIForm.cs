@@ -12,65 +12,60 @@ using System.Windows.Forms;
 using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Framework;
 
+using Xynapse.UI;
+
 using Xybrid.UI;
+
+using Rectange = Microsoft.Xna.Framework.Rectangle;
 
 namespace Xybrid {
     public partial class UIForm : Form {
         public UIForm(int n) {
             //InitializeComponent();
             Load += OnLoad;
-            num = n;
+            //num = n;
 
             Resize += cOnResize;
 
             FormClosed += (Object s, FormClosedEventArgs e) => {
-                UIManager.windows.Remove(game);
+                UIManager.windows.Remove(this);
             };
         }
 
-        int num;
-        Thread t = null;
-
-        UIHandler game = null;
+        public WindowBase windowDef;
+        public GameWindow window;
+        public SwapChainRenderTarget target;
 
         void OnLoad(Object sender, EventArgs e) {
-            Debug.WriteLine("onload");
-            InitializeComponent();
+            //Debug.WriteLine("onload");
+            //InitializeComponent();
             //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 
             if (this.DesignMode == false) {
                 WindowsDeviceConfig.UseForm = false;
                 WindowsDeviceConfig.ControlToUse = this;
 
-                game = new UIHandler(this);
+                //window = GameWindow.Create(UIHandler.instance, ClientSize.Width, ClientSize.Height);
+                target = new SwapChainRenderTarget(UIHandler.graphicsDevice, this.Handle, ClientSize.Width, ClientSize.Height);
+
+                UIManager.windows.Add(this);
+
+                /*game = new UIHandler(this);
                 game.num = num;
                 game.IsFixedTimeStep = false;
-                UIManager.windows.Add(game);
-
-                /*t = new Thread(new ThreadStart(() => {
-                    while (true) {
-                        try {
-                            this.Invoke(new MethodInvoker(() => {
-                                game.RunOneFrame();
-                            }));
-                        }
-                        catch (Exception ex) { return; }
-
-                        Thread.Sleep(16);
-                    }
-                }));
-
-                t.IsBackground = true;
-                //t.Name = "Monogame Thread";
-                t.Start();*/
+                UIManager.windows.Add(game);*/
             }
         }
         void cOnResize(Object sender, EventArgs e) {
-            game.graphics.PreferredBackBufferWidth = this.ClientSize.Width;
+            /*game.graphics.PreferredBackBufferWidth = this.ClientSize.Width;
             game.graphics.PreferredBackBufferHeight = this.ClientSize.Height;
-            game.graphics.ApplyChanges();
+            game.graphics.ApplyChanges();*/
+            //target.
+
+            target = new SwapChainRenderTarget(UIHandler.graphicsDevice, Handle, ClientSize.Width, ClientSize.Height);
         }
     }
 }

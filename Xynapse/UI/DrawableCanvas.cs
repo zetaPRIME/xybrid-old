@@ -12,6 +12,7 @@ namespace Xynapse.UI {
             return HostInterop.getCanvas(x, y);
         }
 
+        public abstract PxVector Size { get; set; }
         public abstract void SetSize(int x, int y);
         public abstract void Clear(int x, int y);
 
