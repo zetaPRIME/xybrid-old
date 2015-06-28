@@ -16,6 +16,7 @@ using MonoGame.Framework;
 using Xynapse;
 
 using Xybrid.UI;
+using Xybrid.Graphics;
 
 namespace Xybrid {
     public class Program {
@@ -34,6 +35,11 @@ namespace Xybrid {
             UIHandler.control = p;
             UIHandler.instance.IsFixedTimeStep = false;
             UIHandler.instance.RunOneFrame();
+
+            GraphicsManager.graphics = UIHandler.graphicsDevice; // temp, will refactor later
+            GraphicsManager.Init();
+            ThemeManager.LoadDefault();
+            InteropManager.Init();
 
             UIForm f1 = new UIForm(1);
             UIForm f2 = new UIForm(2);

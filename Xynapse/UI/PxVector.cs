@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Xynapse.UI {
     public struct PxVector {
-        public readonly int X;
-        public readonly int Y;
+        public readonly int X, Y;
+        public PxVector(int x, int y) { X = x; Y = y; }
     }
 }

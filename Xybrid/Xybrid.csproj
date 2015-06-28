@@ -36,36 +36,50 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EmbeddedResource Include="Resources\DefaultTheme.zip" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework">
+    <Reference Include="Ionic.Zip.Reduced">
+      <HintPath>..\Dependencies\DotNetZip\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\MonoGame\MonoGame.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX">
+    <Reference Include="SharpDX, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX\SharpDX.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct2D1">
+    <Reference Include="SharpDX.Direct2D1, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX\SharpDX.Direct2D1.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct3D11">
+    <Reference Include="SharpDX.Direct3D11, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct3D9">
+    <Reference Include="SharpDX.Direct3D9, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.DXGI">
+    <Reference Include="SharpDX.DXGI, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX\SharpDX.DXGI.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.MediaFoundation">
+    <Reference Include="SharpDX.MediaFoundation, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX\SharpDX.MediaFoundation.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.RawInput">
+    <Reference Include="SharpDX.RawInput, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX\SharpDX.RawInput.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.XAudio2">
+    <Reference Include="SharpDX.XAudio2, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX\SharpDX.XAudio2.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.XInput">
+    <Reference Include="SharpDX.XInput, Version=2.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX\SharpDX.XInput.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -76,6 +90,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Xybrid\Graphics\Canvas.cs" />
+    <Compile Include="Xybrid\Graphics\DrawableTexture.cs" />
+    <Compile Include="Xybrid\Graphics\GraphicsManager.cs" />
+    <Compile Include="Xybrid\Graphics\ThemeManager.cs" />
     <Compile Include="Xybrid\InteropManager.cs" />
     <Compile Include="Xybrid\UI\UIHandler.cs" />
     <Compile Include="Xybrid\UI\UIForm.cs">
@@ -85,6 +102,7 @@
       <DependentUpon>UIForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Xybrid\UI\UIManager.cs" />
+    <Compile Include="Xybrid\Util\Conversions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Xynapse\Xynapse.csproj">
@@ -97,6 +115,7 @@
       <DependentUpon>UIForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
