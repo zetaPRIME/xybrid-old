@@ -27,6 +27,11 @@ namespace Xybrid.Util {
         public static Vector2 Vector2(this FxVector vec) { return new Vector2(vec.X, vec.Y); }
         #endregion
 
+        #region Rectangle/PxRect
+        public static PxRect PxRect(this Rectangle rect) { return new PxRect(rect.X, rect.Y, rect.Height, rect.Width); }
+        public static Rectangle Rectangle(this PxRect rect) { return new Rectangle(rect.X, rect.Y, rect.W, rect.H); }
+        #endregion
+
         #region Color/DrawColor
         public static DrawColor DrawColor(this Color c) { return new DrawColor(c.R, c.G, c.B, c.A); }
         public static Color Color(this DrawColor c) { return new Color(c.R, c.G, c.B, c.A); }

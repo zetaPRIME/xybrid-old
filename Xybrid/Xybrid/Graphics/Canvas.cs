@@ -22,20 +22,21 @@ namespace Xybrid.Graphics {
             }
         }
 
+        internal Canvas(RenderTarget2D tgt) { target = tgt; }
         public Canvas(int x, int y) {
-            target = new RenderTarget2D(UIHandler.graphicsDevice, x, y);
+            target = new RenderTarget2D(GraphicsManager.device, x, y);
         }
 
         public override void SetSize(int x, int y) {
-            throw new NotImplementedException();
+            target = new RenderTarget2D(GraphicsManager.device, x, y);
         }
 
-        public override void Clear(int x, int y) {
-            throw new NotImplementedException();
+        public override void Clear() {
+            DrawBatch.Clear(target, Color.Transparent);
         }
 
         public override void Set() {
-            throw new NotImplementedException();
+            DrawBatch.Target = target;
         }
 
         public override void Draw(DrawContext context, PxRect rect, PxRect? sampleRect = null, DrawColor? color = null) {

@@ -18,8 +18,11 @@ using MonoGame.Framework;
 using Xynapse.UI;
 
 using Xybrid.UI;
+using Xybrid.Graphics;
 
-using Rectange = Microsoft.Xna.Framework.Rectangle;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using XPoint = Microsoft.Xna.Framework.Point;
+using DPoint = System.Drawing.Point;
 
 namespace Xybrid {
     public partial class UIForm : Form {
@@ -39,6 +42,8 @@ namespace Xybrid {
         public GameWindow window;
         public SwapChainRenderTarget target;
 
+        public XPoint? mpoint = null;
+
         void OnLoad(Object sender, EventArgs e) {
             //Debug.WriteLine("onload");
             //InitializeComponent();
@@ -49,7 +54,7 @@ namespace Xybrid {
                 WindowsDeviceConfig.ControlToUse = this;
 
                 //window = GameWindow.Create(UIHandler.instance, ClientSize.Width, ClientSize.Height);
-                target = new SwapChainRenderTarget(UIHandler.graphicsDevice, this.Handle, ClientSize.Width, ClientSize.Height);
+                target = new SwapChainRenderTarget(GraphicsManager.device, this.Handle, ClientSize.Width, ClientSize.Height, false, SurfaceFormat.Color, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents, PresentInterval.Default);
 
                 UIManager.windows.Add(this);
 
@@ -65,7 +70,7 @@ namespace Xybrid {
             game.graphics.ApplyChanges();*/
             //target.
 
-            target = new SwapChainRenderTarget(UIHandler.graphicsDevice, Handle, ClientSize.Width, ClientSize.Height);
+            target = new SwapChainRenderTarget(GraphicsManager.device, Handle, ClientSize.Width, ClientSize.Height);
         }
     }
 }

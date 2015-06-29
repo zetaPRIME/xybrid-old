@@ -36,6 +36,8 @@ namespace Xybrid.Graphics {
 
             blendAlpha.AlphaSourceBlend = Blend.One;
             blendAlpha.ColorSourceBlend = Blend.One;
+
+            DrawBatch.Init();
         }
 
         public static Texture2D ConvertToPreMultipliedAlphaGPU(Texture2D texture) {

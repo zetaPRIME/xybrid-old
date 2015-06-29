@@ -15,11 +15,13 @@ namespace Xybrid.Graphics {
         public DrawableTexture(Texture2D texture) { this.texture = texture; }
 
         public override void Draw(DrawContext context, PxRect rect, PxRect? sampleRect = null, DrawColor? color = null) {
-            throw new NotImplementedException();
+            context.Set();
+            DrawBatch.Draw(texture, rect, sampleRect, color);
         }
 
         public override void Draw(DrawContext context, FxVector position, FxVector? align = null, PxRect? sampleRect = null, DrawColor? color = null, float rotation = 0, FxVector? scale = null) {
-            throw new NotImplementedException();
+            context.Set();
+            DrawBatch.Draw(texture, position, align, sampleRect, color, rotation, scale);
         }
     }
 }

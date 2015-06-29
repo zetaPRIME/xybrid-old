@@ -23,12 +23,18 @@ namespace Xynapse.UI {
             }
         }
 
-        
+        public int X, Y, W, H;
+        public PxVector Position { get { return new PxVector(X, Y); } set { X = value.X; Y = value.Y; } }
+        public PxVector Size { get { return new PxVector(W, H); } set { W = value.X; H = value.Y; } }
+        //public PxRect Rect { get { return new PxRect(Position, Size); } set { Position = value.Position; Size = value.Size; } }
+        public PxRect Rect { get { return new PxRect(X, Y, W, H); } set { X = value.X; Y = value.Y; W = value.W; H = value.H; } }
 
 
         //EVENTS
         public virtual bool InterceptMouse(int x, int y) { return false; }
         public virtual bool OnScroll(int scroll) { return false; }
+
+        public virtual void OnResize() { }
 
         public virtual void MouseEnter() { }
         public virtual void MouseLeave() { }
@@ -36,6 +42,9 @@ namespace Xynapse.UI {
         public virtual void OnDoubleClick() { }
         public virtual void OnRightClick() { }
         public virtual void OnMiddleClick() { }
+
+        public virtual void Update() { }
+        public virtual void Draw() { }
 
     }
 }

@@ -28,7 +28,7 @@ namespace Xybrid.Graphics {
                     using (var ms = new MemoryStream()) {
                         entry.Extract(ms);
                         ms.Position = 0;
-                        tex = Texture2D.FromStream(UIHandler.graphicsDevice, ms);
+                        tex = Texture2D.FromStream(GraphicsManager.device, ms);
                     }
                     tex = GraphicsManager.ConvertToPreMultipliedAlphaGPU(tex);
 

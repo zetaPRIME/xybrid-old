@@ -38,6 +38,16 @@ namespace Xynapse.UI {
             if (check(this)) done = true;
         }
 
+        public override void Update() {
+            List<UIControl> chtemp = new List<UIControl>(children);
+            foreach (UIControl child in chtemp) child.Update();
+        }
+
+        public override void Draw() {
+            List<UIControl> chtemp = new List<UIControl>(children);
+            foreach (UIControl child in chtemp) child.Draw();
+        }
+
         public abstract void Set(); // TBI
     }
 }

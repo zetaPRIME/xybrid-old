@@ -14,6 +14,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using MonoGame.Framework;
 
+using Xybrid.Graphics;
+using Xybrid.Util;
+
 namespace Xybrid {
     public class UIHandler : Game {
 
@@ -37,27 +40,37 @@ namespace Xybrid {
 
         public static SpriteBatch spriteBatch;
         public GraphicsDeviceManager graphics;
-        public static GraphicsDevice graphicsDevice;
 
-        public UIForm currentForm;
+        public static UIForm currentForm;
         public int num = 0;
 
-        public UIHandler() {
+        private UIHandler() {
             instance = this;
 
             graphics = new GraphicsDeviceManager(this);
-            //Content.RootDirectory = "Content/Native";
-            //form = f;
+        }
+
+        public static void Init() {
+            if (instance != null) return;
+            control = new ContainerControl();
+            control.CreateControl();
+
+            WindowsDeviceConfig.UseForm = false;
+            WindowsDeviceConfig.ControlToUse = control;
+            new UIHandler();
+
+            instance.IsFixedTimeStep = false;
+            instance.RunOneFrame();
         }
 
         public static void RunFrame(UIForm form) {
-            instance.currentForm = form;
+            currentForm = form;
             instance.RunOneFrame();
         }
 
         protected override void LoadContent() {
             //Debug.WriteLine("loadcontent " + num);
-            graphicsDevice = GraphicsDevice;
+            GraphicsManager.device = GraphicsDevice;
             spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             IsMouseVisible = true;
 
@@ -75,8 +88,25 @@ namespace Xybrid {
             return true;
         }
 
+        //Point? mpoint = null;
+        protected override void Update(GameTime gameTime) {
+            if (!ainit) return;
+
+            MouseState ms = Mouse.GetState();
+            bool lm = ms.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed;
+            if (lm && (currentForm.mpoint != null || GetWindowUnderCursor() == currentForm.Handle)) {
+                if (currentForm.mpoint != null) {
+                    Point old = currentForm.Location.XPoint();
+                    currentForm.Location = new System.Drawing.Point(old.X + (ms.Position.X - currentForm.mpoint.Value.X), old.Y + (ms.Position.Y - currentForm.mpoint.Value.Y));
+                }
+                currentForm.mpoint = ms.Position;
+            }
+            else currentForm.mpoint = null;
+        }
+
         bool ainit = false;
         static RenderTarget2D blah;
+
         protected override void Draw(GameTime gameTime) {
             if (!ainit) {
                 ainit = true;
@@ -109,8 +139,10 @@ namespace Xybrid {
             spriteBatch.Draw(blah, new Rectangle(88, 88, 88, 88), new Color(127, 0, 255));
             spriteBatch.End();
 
-
-            base.Draw(gameTime);
+            ThemeManager.FetchDrawable("pickle.TestImage").Draw(new Canvas(currentForm.target), new Xynapse.UI.FxVector(32, 32));
+            
+            DrawBatch.Target = null;
+            //base.Draw(gameTime);
         }
 
         protected override void EndDraw() {

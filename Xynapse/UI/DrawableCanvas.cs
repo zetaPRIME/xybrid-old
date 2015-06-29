@@ -14,7 +14,7 @@ namespace Xynapse.UI {
 
         public abstract PxVector Size { get; set; }
         public abstract void SetSize(int x, int y);
-        public abstract void Clear(int x, int y);
+        public abstract void Clear();
 
         // DrawContext
         public abstract void Set();

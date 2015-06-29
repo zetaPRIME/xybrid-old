@@ -34,6 +34,19 @@
   <PropertyGroup>
     <StartupObject>Xybrid.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug+PackTheme|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
     <EmbeddedResource Include="Resources\DefaultTheme.zip" />
@@ -90,7 +103,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Xybrid\Graphics\Canvas.cs" />
+    <Compile Include="Xybrid\Graphics\Drawable9Patch.cs" />
     <Compile Include="Xybrid\Graphics\DrawableTexture.cs" />
+    <Compile Include="Xybrid\Graphics\DrawBatch.cs" />
     <Compile Include="Xybrid\Graphics\GraphicsManager.cs" />
     <Compile Include="Xybrid\Graphics\ThemeManager.cs" />
     <Compile Include="Xybrid\InteropManager.cs" />
@@ -103,6 +118,7 @@
     </Compile>
     <Compile Include="Xybrid\UI\UIManager.cs" />
     <Compile Include="Xybrid\Util\Conversions.cs" />
+    <Compile Include="Xybrid\Util\RectTools.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Xynapse\Xynapse.csproj">
@@ -117,6 +133,21 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if ($ConfigurationName) == Release (
+   call "$(DevEnvDir)..\Tools\vsvars32.bat"
+   editbin /largeaddressaware $(TargetPath)
+)</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>set PACK=
+if $(ConfigurationName) == Release set PACK=1
+if $(ConfigurationName) == Debug+PackTheme set PACK=1
+if defined PACK (
+   echo Repacking default theme
+   call "$(SolutionDir)BuildTools\zipjs.bat" zipDirItems -source "$(SolutionDir)Default Theme\Assets\" -destination "$(ProjectDir)Resources\DefaultTheme.zip"
+)</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

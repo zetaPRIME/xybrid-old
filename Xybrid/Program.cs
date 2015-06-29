@@ -26,17 +26,8 @@ namespace Xybrid {
             //Application.Run(new UIForm());
 
 
-            ContainerControl p = new ContainerControl();
-            p.CreateControl();
-
-            WindowsDeviceConfig.UseForm = false;
-            WindowsDeviceConfig.ControlToUse = p;
-            new UIHandler();
-            UIHandler.control = p;
-            UIHandler.instance.IsFixedTimeStep = false;
-            UIHandler.instance.RunOneFrame();
-
-            GraphicsManager.device = UIHandler.graphicsDevice; // temp, will refactor later
+            
+            UIHandler.Init();
             GraphicsManager.Init();
             ThemeManager.LoadDefault();
             InteropManager.Init();
