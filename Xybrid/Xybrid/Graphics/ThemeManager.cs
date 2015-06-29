@@ -23,7 +23,6 @@ namespace Xybrid.Graphics {
                 ZipFile zip = ZipFile.Read(zs);
                 foreach (ZipEntry entry in zip) {
                     if (!entry.FileName.ToLower().EndsWith(".png")) continue;
-                    string name = entry.FileName.Substring(0, entry.FileName.Length - 4);
                     Texture2D tex = null;
                     using (var ms = new MemoryStream()) {
                         entry.Extract(ms);
@@ -32,10 +31,41 @@ namespace Xybrid.Graphics {
                     }
                     tex = GraphicsManager.ConvertToPreMultipliedAlphaGPU(tex);
 
-                    assetsDrawableDefault.Add(name.Replace('/', '.'), new DrawableTexture(tex));
+                    string name;// = entry.FileName.Substring(0, entry.FileName.Length - 4);
+                    Drawable d = ToDrawable(entry.FileName, tex, out name);
+                    assetsDrawableDefault.Add(name, d);
+
+                    //assetsDrawableDefault.Add(name.Replace('/', '.'), new DrawableTexture(tex));
 
                 }
             }
+        }
+
+        static Drawable ToDrawable(string fileName, Texture2D tex, out string name) {
+            name = fileName.Substring(0, fileName.LastIndexOf("."));
+            string tag = "";
+            while (true) { // lol hacky control block
+                int ts = name.LastIndexOf('['); if (ts < 0) break;
+                int te = name.LastIndexOf(']'); if (te < 0) break;
+                tag = name.Substring(ts+1, (te - ts) - 1);
+                name = name.Substring(0, ts).TrimEnd();
+                break;
+            }
+
+            name = name.Replace('/', '.');
+
+            if (tag != "") {
+                string[] token = tag.Split(' ');
+                if (token[0] == "9patch") {
+                    try {
+                        int fw = int.Parse(token[1]);
+                        int fh = int.Parse(token[2]);
+                        return new Drawable9Patch(tex, fw, fh);
+                    }
+                    catch { }
+                }
+            }
+            return new DrawableTexture(tex);
         }
 
         public static Drawable FetchDrawable(string name) {

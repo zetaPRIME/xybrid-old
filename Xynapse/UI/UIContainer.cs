@@ -16,7 +16,10 @@ namespace Xynapse.UI {
                 return a_children;
             }
         }
-        //public void AddChild
+        public T AddChild<T>(T child) where T : UIControl {
+            child.parent = this;
+            return child;
+        }
 
         // hmm.
         public void Dive(Func<UIControl, bool> check, Action<UIControl> perform) {

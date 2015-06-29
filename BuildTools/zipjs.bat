@@ -8,6 +8,7 @@
 	
 @if (@X)==(@Y) @end JScript comment */
 
+/* (zetaPRIME's note) found this here: https://github.com/npocmaka/batch.scripts/blob/master/hybrids/jscript/zipjs.bat */
 
 /*
 Compression/uncompression command-line tool that uses Shell.Application and WSH/Jscript -

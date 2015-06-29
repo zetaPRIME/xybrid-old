@@ -139,7 +139,8 @@ namespace Xybrid {
             spriteBatch.Draw(blah, new Rectangle(88, 88, 88, 88), new Color(127, 0, 255));
             spriteBatch.End();
 
-            ThemeManager.FetchDrawable("pickle.TestImage").Draw(new Canvas(currentForm.target), new Xynapse.UI.FxVector(32, 32));
+            //ThemeManager.FetchDrawable("pickle.TestImage").Draw(new Canvas(currentForm.target), new Xynapse.UI.FxVector(32, 32));
+            ThemeManager.FetchDrawable("pickle.TestImage2").Draw(new Canvas(currentForm.target), new Xynapse.UI.PxRect(4, 4, 128, 128));
             
             DrawBatch.Target = null;
             //base.Draw(gameTime);

@@ -28,7 +28,7 @@ namespace Xybrid.Util {
         #endregion
 
         #region Rectangle/PxRect
-        public static PxRect PxRect(this Rectangle rect) { return new PxRect(rect.X, rect.Y, rect.Height, rect.Width); }
+        public static PxRect PxRect(this Rectangle rect) { return new PxRect(rect.X, rect.Y, rect.Width, rect.Height); }
         public static Rectangle Rectangle(this PxRect rect) { return new Rectangle(rect.X, rect.Y, rect.W, rect.H); }
         #endregion
 
