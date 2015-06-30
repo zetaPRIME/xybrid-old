@@ -32,7 +32,7 @@ namespace Xybrid {
             ThemeManager.LoadDefault();
             InteropManager.Init();
 
-            UIForm f1 = new UIForm(1);
+            /*UIForm f1 = new UIForm(1);
             UIForm f2 = new UIForm(2);
 
             Button b = new Button();
@@ -40,34 +40,14 @@ namespace Xybrid {
             b.Click += (Object s, EventArgs e) => {
                 new UIForm(32).Show();
             };
-            /*b.Click += (Object s, EventArgs e) => {
-                UIManager.windows.Remove(f2.game);
-                MonoGame.Framework.WindowsDeviceConfig.UseForm = false;
-                MonoGame.Framework.WindowsDeviceConfig.ControlToUse = f2;
-                f2.game = new UIHandler(f2);
-                f2.game.IsFixedTimeStep = false;
-                UIManager.windows.Add(f2.game);
-
-                return;
-
-                UIForm u = new UIForm(1);
-                u.StartPosition = FormStartPosition.Manual;
-
-                u.Show();
-                u.FormBorderStyle = FormBorderStyle.None;
-                u.ClientSize = new Size(256, 256);
-                //u.MaximumSize = new Size(256, 256);
-
-                u.Location = new System.Drawing.Point(256, 256);
-                
-                
-            };*/
             f1.Controls.Add(b);
 
-            f2.Show();
+            f2.Show();*/
+            new WindowMain().Open();
 
             UIManager.SpawnUIUpdateThread();
-            Application.Run(f1);
+            //Application.Run(f1);
+            Application.Run();
 
             bool yes = true;
             if (yes) return;

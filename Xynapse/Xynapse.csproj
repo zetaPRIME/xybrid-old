@@ -57,6 +57,7 @@
     <Compile Include="Data Types\Command.cs" />
     <Compile Include="Data Types\CommandBuffer.cs" />
     <Compile Include="Data Types\PCMBuffer.cs" />
+    <Compile Include="Input\Keys.cs" />
     <Compile Include="Interop\Host\HostInterop.cs" />
     <Compile Include="UI\Drawable.cs" />
     <Compile Include="UI\DrawableCanvas.cs" />

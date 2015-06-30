@@ -9,30 +9,30 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Xynapse.UI;
 
+using Xybrid.Util;
+
 namespace Xybrid.Graphics {
     public class Canvas : DrawableCanvas {
         internal RenderTarget2D target;
 
         public override PxVector Size {
-            get {
-                throw new NotImplementedException();
-            }
-            set {
-                throw new NotImplementedException();
-            }
+            get { return new PxVector(target.Width, target.Height); }
+            set { SetSize(value.X, value.Y); }
         }
 
         internal Canvas(RenderTarget2D tgt) { target = tgt; }
         public Canvas(int x, int y) {
-            target = new RenderTarget2D(GraphicsManager.device, x, y);
+            target = new RenderTarget2D(GraphicsManager.device, x, y, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
         }
 
         public override void SetSize(int x, int y) {
-            target = new RenderTarget2D(GraphicsManager.device, x, y);
+            if (x == target.Width && y == target.Height) return; // don't thrash gpu
+            target.Dispose(); // this made things faster in UIForm, probably works much the same
+            target = new RenderTarget2D(GraphicsManager.device, x, y, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
         }
 
-        public override void Clear() {
-            DrawBatch.Clear(target, Color.Transparent);
+        public override void Clear(DrawColor color) {
+            DrawBatch.Clear(target, color.Color());
         }
 
         public override void Set() {

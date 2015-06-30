@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xynapse.Interop.Host;
 
+using Xybrid.UI;
 using Xybrid.Graphics;
 
 namespace Xybrid {
@@ -14,6 +15,8 @@ namespace Xybrid {
             HostInterop.loadThemeImage = ThemeManager.FetchDrawable;
 
             HostInterop.getCanvas = (x, y) => { return new Canvas(x, y); };
+
+            HostInterop.openWindow = UIManager.OpenWindow;
 
             // done, keep other things from interfering
             HostInterop.LockIn();

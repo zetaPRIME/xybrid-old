@@ -28,5 +28,11 @@ namespace Xynapse.Interop.Host {
             get { return _getCanvas; }
             set { if (!locked) _getCanvas = value; }
         }
+
+        private static Action<WindowBase> _openWindow;
+        public static Action<WindowBase> openWindow {
+            get { return _openWindow; }
+            set { if (!locked) _openWindow = value; }
+        }
     }
 }

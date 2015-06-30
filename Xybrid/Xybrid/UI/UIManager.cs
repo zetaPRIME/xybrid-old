@@ -6,6 +6,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Microsoft.Xna.Framework.Graphics;
+
+using Xynapse.UI;
+
+using Xybrid.Graphics;
+
 namespace Xybrid.UI {
     public static class UIManager {
         public static List<UIForm> windows = new List<UIForm>();
@@ -37,8 +43,19 @@ namespace Xybrid.UI {
             catch { }
         }
         static void RunUIUpdate() {
+            UIHandler.instance.PreAllUpdate();
             List<UIForm> tmpwin = new List<UIForm>(windows); // copy
             foreach (UIForm win in tmpwin) UIHandler.RunFrame(win); //win.form.Invoke(new MethodInvoker(win.RunOneFrame));
+        }
+
+        internal static void OpenWindow(WindowBase window) {
+            UIForm form = new UIForm(window);
+            form.CreateControl();
+            //form.target = new SwapChainRenderTarget(GraphicsManager.device, form.Handle, form.ClientSize.Width, form.ClientSize.Height, false, SurfaceFormat.Color, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents, PresentInterval.Default);
+            //window.canvas = new Canvas(form.target);
+
+            windows.Add(form);
+            form.Show();
         }
 
     }

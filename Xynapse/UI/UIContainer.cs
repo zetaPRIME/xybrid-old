@@ -21,7 +21,17 @@ namespace Xynapse.UI {
             return child;
         }
 
-        // hmm.
+        public abstract DrawableCanvas canvas { get; set; }
+
+        private PxVector _ScrollOffset__BackingField;
+        public virtual PxVector ScrollOffset {
+            get { return _ScrollOffset__BackingField; }
+            set { _ScrollOffset__BackingField = value.ClampTo(ScrollBounds); }
+        }
+        public virtual PxRect ScrollBounds { get; set; }
+        public PxRect ViewportRect { get { return new PxRect(ScrollOffset, Size); } set { } }
+
+        #region advanced?
         public void Dive(Func<UIControl, bool> check, Action<UIControl> perform) {
             bool done = false;
             _Dive(check, perform, ref done);
@@ -40,6 +50,7 @@ namespace Xynapse.UI {
             perform(this);
             if (check(this)) done = true;
         }
+        #endregion
 
         public override void Update() {
             List<UIControl> chtemp = new List<UIControl>(children);
@@ -47,10 +58,16 @@ namespace Xynapse.UI {
         }
 
         public override void Draw() {
-            List<UIControl> chtemp = new List<UIControl>(children);
-            foreach (UIControl child in chtemp) child.Draw();
+            canvas.Clear();
+            DrawChildren();
+            if (parent != null) canvas.Draw(parent, ViewRect);
         }
 
-        public abstract void Set(); // TBI
+        protected void DrawChildren() {
+            List<UIControl> chtemp = new List<UIControl>(children);
+            foreach (UIControl child in chtemp) if (child.Rect.Intersects(ViewportRect)) child.Draw();
+        }
+
+        public virtual void Set() { canvas.Set(); }
     }
 }
