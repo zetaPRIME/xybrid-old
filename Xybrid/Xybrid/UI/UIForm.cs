@@ -54,6 +54,10 @@ namespace Xybrid {
             RemakeTarget();
         }
 
+        protected override void OnMove(EventArgs e) {
+            windowDef.Position = this.PointToScreen(new DPoint(0, 0)).PxVector();
+        }
+
         protected override void OnResize(EventArgs e) {
             RemakeTarget();
             windowDef.Size = new PxVector(ClientSize.Width, ClientSize.Height);
