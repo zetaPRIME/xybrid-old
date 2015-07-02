@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Xynapse.Input;
 using Xynapse.Util;
 
 namespace Xynapse.UI {
@@ -25,7 +26,7 @@ namespace Xynapse.UI {
 
         public int X, Y, W, H;
         public PxVector Position { get { return new PxVector(X, Y); } set { X = value.X; Y = value.Y; } }
-        public PxVector Size { get { return new PxVector(W, H); } set { if (value.X == W && value.Y == H) return; W = value.X; H = value.Y; OnResize(); } } // might as well put onresize there
+        public PxVector Size { get { return new PxVector(W, H); } set { if (value.X == W && value.Y == H) return; W = value.X; H = value.Y; OnResize(); if (parent != null) parent.OnChildResize(this); } } // might as well put onresize there
         //public PxRect Rect { get { return new PxRect(Position, Size); } set { Position = value.Position; Size = value.Size; } }
         public PxRect Rect { get { return new PxRect(X, Y, W, H); } set { X = value.X; Y = value.Y; W = value.W; H = value.H; } }
 
@@ -34,19 +35,30 @@ namespace Xynapse.UI {
             set { }
         }
 
+        public virtual PxRect ScreenRect {
+            get {
+                if (parent == null) return Rect;
+                return ViewRect + parent.ScreenRect.Position;
+            }
+            set { }
+        }
 
         //EVENTS
-        public virtual bool InterceptMouse(int x, int y) { return false; }
+        public virtual bool InterceptMouse(PxVector mousePos) { return false; }
+        public virtual bool IsDraggable(int button) { return false; }
         public virtual bool OnScroll(int scroll) { return false; }
 
         public virtual void OnResize() { }
 
-        public virtual void MouseEnter() { }
-        public virtual void MouseLeave() { }
-        public virtual void OnClick() { }
-        public virtual void OnDoubleClick() { }
-        public virtual void OnRightClick() { }
-        public virtual void OnMiddleClick() { }
+        public virtual void OnMouseEnter(InputState input) { }
+        public virtual void OnMouseLeave(InputState input) { }
+        public virtual void OnMouseDown(InputState input, int button) { }
+        public virtual void OnMouseUp(InputState input, int button) { }
+        public virtual void OnDrag(InputState input, int button, PxVector deltaFrame, PxVector deltaStart) { }
+        /*public virtual void OnClick(InputState input) { } // pending rethinking
+        public virtual void OnDoubleClick(InputState input) { }
+        public virtual void OnRightClick(InputState input) { }
+        public virtual void OnMiddleClick(InputState input) { }*/
 
         public virtual void Update() { }
         public virtual void Draw() { }

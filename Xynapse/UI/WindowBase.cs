@@ -14,6 +14,8 @@ namespace Xynapse.UI {
 
         public PxVector DefaultSize { get { return new PxVector(160, 160); } }
 
+        public virtual string Title { get; set; }
+
         public WindowBase() {
             MinimumSize = new PxVector(160, 160);
             MaximumSize = new PxVector(99999, 99999);

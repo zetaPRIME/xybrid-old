@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Framework;
 
 using Xynapse.UI;
+using Xynapse.Input;
 
 using Xybrid.UI;
 using Xybrid.Graphics;
@@ -29,11 +30,8 @@ using Size = System.Drawing.Size;
 namespace Xybrid {
     public partial class UIForm : Form {
         public UIForm(WindowBase window) {
-            //InitializeComponent();
-            //Load += OnLoad;
-            //num = n;
-
             windowDef = window;
+            InitializeComponent();
         }
 
         public WindowBase windowDef;
@@ -44,6 +42,8 @@ namespace Xybrid {
 
         public override Size MinimumSize { get { return SizeFromClientSize(new Size(windowDef.MinimumSize.DPoint())); } }
         public override Size MaximumSize { get { return SizeFromClientSize(new Size(windowDef.MaximumSize.DPoint())); } }
+
+        string prevName = "";
 
         protected override void OnLoad(EventArgs e) {
             windowDef.Size = windowDef.DefaultSize;
@@ -75,8 +75,71 @@ namespace Xybrid {
         }
 
         protected override void OnClosing(CancelEventArgs e) {
-            if (windowDef.OnClose()) UIManager.windows.Remove(this);
+            if (windowDef.OnClose()) {
+                UIManager.windows.Remove(this);
+                if (UIManager.dragForm == this) UIManager.dragForm = null;
+            }
             else e.Cancel = true;
         }
+
+        protected override void OnMouseWheel(MouseEventArgs e) {
+            UIHandler.scrollValue += e.Delta / Math.Abs(e.Delta);
+        }
+
+        public List<UIControl> mouseOverLastFrame = new List<UIControl>();
+        public List<UIControl> mouseOverThisFrame = new List<UIControl>();
+
+        UIControl dragControl;
+        PxVector dragStart, dragLast;
+        int dragButton;
+
+        public void ProcessInputEvents(InputState input, bool mouseOver) {
+            if (UIManager.dragForm == null) {
+                {
+                    var swap = mouseOverLastFrame;
+                    mouseOverLastFrame = mouseOverThisFrame;
+                    mouseOverThisFrame = swap;
+                    mouseOverThisFrame.Clear();
+                }
+                if (mouseOver) windowDef.Dive((ctl) => ctl.ScreenRect.Contains(input.MousePosition), (ctl) => ctl.InterceptMouse(input.MousePosition - ctl.ScreenRect.Position), (ctl) => mouseOverThisFrame.Add(ctl));
+
+                foreach (UIControl ctl in mouseOverLastFrame) if (!mouseOverThisFrame.Contains(ctl)) ctl.OnMouseLeave(input);
+                foreach (UIControl ctl in mouseOverThisFrame) if (!mouseOverLastFrame.Contains(ctl)) ctl.OnMouseEnter(input);
+
+                for (int i = 0; i < 3; i++) {
+                    foreach (UIControl ctl in mouseOverThisFrame) {
+                        if (input.MouseReleased(i)) ctl.OnMouseUp(input, i);
+                        if (input.MousePressed(i)) {
+                            ctl.OnMouseDown(input, i);
+                            if (ctl.IsDraggable(i)) {
+                                UIManager.dragForm = this;
+                                dragControl = ctl;
+                                dragStart = dragLast = input.MousePosition;
+                                dragButton = i;
+                                // todo: maybe abort rest of non-drag phase?
+                            }
+                        }
+                    }
+                }
+
+                if (input.scrollWheel != 0) foreach (UIControl ctl in mouseOverThisFrame) if (ctl.OnScroll(input.scrollWheel)) break;
+                
+            }
+            else if (UIManager.dragForm == this) {
+                if (input.MouseReleased(dragButton)) {
+                    dragControl.OnMouseUp(input, dragButton);
+                    dragControl = null; // don't hold an old ref
+                    UIManager.dragForm = null; // and of course
+                }
+                else if (input.MousePosition != dragLast) {
+                    dragControl.OnDrag(input, dragButton, input.MousePosition - dragLast, input.MousePosition - dragStart);
+                    dragLast = input.MousePosition;
+                }
+            }
+
+        }
+        //
+        //
+        //
     }
 }

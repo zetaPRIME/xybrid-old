@@ -17,7 +17,7 @@ namespace Xynapse.UI {
             }
         }
         public T AddChild<T>(T child) where T : UIControl {
-            child.parent = this;
+            child.Parent = this;
             return child;
         }
 
@@ -32,27 +32,35 @@ namespace Xynapse.UI {
         public PxRect ViewportRect { get { return new PxRect(ScrollOffset, Size); } set { } }
 
         #region advanced?
-        public void Dive(Func<UIControl, bool> check, Action<UIControl> perform) {
+        public void Dive(Func<UIControl, bool> check, Func<UIControl, bool> intercept, Action<UIControl> perform) {
             bool done = false;
-            _Dive(check, perform, ref done);
+            _Dive(check, intercept, perform, ref done);
         }
-        internal void _Dive(Func<UIControl, bool> check, Action<UIControl> perform, ref bool done) {
+        internal void _Dive(Func<UIControl, bool> check, Func<UIControl, bool> intercept, Action<UIControl> perform, ref bool done) {
             for (int i = children.Count - 1; i >= 0; i--) {
-                if (children[i] is UIContainer) {
-                    (children[i] as UIContainer)._Dive(check, perform, ref done);
-                    if (done) return;
-                }
-                else {
-                    perform(children[i]);
-                    if (check(children[i])) { done = true; return; }
+                if (check(children[i])) {
+                    if (children[i] is UIContainer) {
+                        (children[i] as UIContainer)._Dive(check, intercept, perform, ref done);
+                        if (done) return;
+                    }
+                    else {
+                        perform(children[i]);
+                        if (intercept(children[i])) { done = true; return; }
+                    }
                 }
             }
-            perform(this);
-            if (check(this)) done = true;
+            if (check(this)) {
+                perform(this);
+                if (intercept(this)) done = true;
+            }
         }
         #endregion
 
         public override void Update() {
+            UpdateChildren();
+        }
+
+        protected void UpdateChildren() {
             List<UIControl> chtemp = new List<UIControl>(children);
             foreach (UIControl child in chtemp) child.Update();
         }
@@ -69,5 +77,7 @@ namespace Xynapse.UI {
         }
 
         public virtual void Set() { canvas.Set(); }
+
+        public virtual void OnChildResize(UIControl child) { }
     }
 }

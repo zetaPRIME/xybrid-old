@@ -15,9 +15,12 @@ using Keys = Microsoft.Xna.Framework.Input.Keys;
 using MonoGame.Framework;
 
 using Xynapse.UI;
+using Xynapse.Input;
 
 using Xybrid.Graphics;
 using Xybrid.Util;
+
+using XKeys = Xynapse.Input.Keys;
 
 namespace Xybrid {
     public class UIHandler : Game {
@@ -76,14 +79,56 @@ namespace Xybrid {
             IsMouseVisible = true;
         }
 
-        internal void PreAllUpdate() {
+        public InputState inputState = new InputState();
+        IntPtr mouseOverWindow;
+        internal static int scrollValue = 0;
+        bool[] mouseButtonsLastFrame = new bool[3];
+        bool[] mouseButtonsThisFrame = new bool[3];
+        Keys[] keysLastFrame = new Keys[] { };
+        Keys[] keysThisFrame = new Keys[] { };
+        
 
+        internal void PreAllUpdate() {
+            inputState.MousePosition = Control.MousePosition.PxVector();
+            mouseOverWindow = GetWindowUnderCursor();
+
+            MouseState ms = Mouse.GetState();
+            
+            inputState.scrollWheel = scrollValue;
+            scrollValue = 0;
+
+            for (int i = 0; i < 3; i++) mouseButtonsLastFrame[i] = mouseButtonsThisFrame[i];
+            mouseButtonsThisFrame[0] = ms.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed;
+            mouseButtonsThisFrame[1] = ms.RightButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed;
+            mouseButtonsThisFrame[2] = ms.MiddleButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed;
+
+            for (int i = 0; i < 3; i++) {
+                if (inputState.mouseLastPressed[i] < InputState.MaxTrack) inputState.mouseLastPressed[i]++;
+                if (inputState.mouseLastReleased[i] < InputState.MaxTrack) inputState.mouseLastReleased[i]++;
+
+                if (mouseButtonsThisFrame[i] && !mouseButtonsLastFrame[i]) inputState.mouseLastPressed[i] = 0;
+                if (mouseButtonsLastFrame[i] && !mouseButtonsThisFrame[i]) inputState.mouseLastReleased[i] = 0;
+            }
+
+            foreach (KeyValuePair<XKeys, int> kvp in inputState.lastPressed.ToList()) if (kvp.Value < InputState.MaxTrack) inputState.lastPressed[kvp.Key]++;
+            foreach (KeyValuePair<XKeys, int> kvp in inputState.lastReleased.ToList()) if (kvp.Value < InputState.MaxTrack) inputState.lastReleased[kvp.Key]++;
+
+            keysLastFrame = keysThisFrame;
+            keysThisFrame = Keyboard.GetState().GetPressedKeys();
+
+            foreach (Keys k in keysThisFrame) if (!keysLastFrame.Contains(k)) inputState.lastPressed[(XKeys)k] = 0;
+            foreach (Keys k in keysLastFrame) if (!keysThisFrame.Contains(k)) inputState.lastReleased[(XKeys)k] = 0;
         }
         
         protected override void Update(GameTime gameTime) {
             if (currentForm == null) return;
 
-            currentForm.windowDef.Draw();
+            currentForm.ProcessInputEvents(inputState, currentForm.Handle == mouseOverWindow);
+
+            currentForm.windowDef.Update();
+
+            string title = currentForm.windowDef.Title;
+            if (currentForm.Text != title) currentForm.Text = title;
 
             /*MouseState ms = Mouse.GetState();
             bool lm = ms.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed;
