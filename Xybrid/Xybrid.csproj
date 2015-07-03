@@ -21,15 +21,17 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Xybrid.Program</StartupObject>
@@ -46,6 +48,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -95,6 +98,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX\SharpDX.XInput.dll</HintPath>
     </Reference>
+    <Reference Include="SharpFont">
+      <HintPath>..\Dependencies\SharpFont\x32\SharpFont.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows" />
@@ -107,6 +113,7 @@
     <Compile Include="Xybrid\Graphics\DrawableTexture.cs" />
     <Compile Include="Xybrid\Graphics\DrawBatch.cs" />
     <Compile Include="Xybrid\Graphics\GraphicsManager.cs" />
+    <Compile Include="Xybrid\Graphics\TextDrawableFreetype.cs" />
     <Compile Include="Xybrid\Graphics\ThemeManager.cs" />
     <Compile Include="Xybrid\InteropManager.cs" />
     <Compile Include="Xybrid\UI\tests.cs" />
@@ -133,7 +140,11 @@
       <DependentUpon>UIForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="freetype6.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if ($ConfigurationName) == Release (

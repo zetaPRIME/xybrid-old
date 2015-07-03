@@ -19,6 +19,7 @@ namespace Xybrid {
             blah.Rect = new PxRect(48, 48, 128, 32);
 
             AddChild(new testBtn()).Rect = new PxRect(48, 48, 128, 32);
+            //AddChild(new testBtn()).Rect = new PxRect(48, 48, 1024, 1024);
         }
 
         public override string Title { get { return "Xybrid"; } }

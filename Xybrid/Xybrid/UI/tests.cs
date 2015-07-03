@@ -22,6 +22,8 @@ namespace Xybrid.UI {
         public override void OnMouseLeave(InputState input) { hover = false; }
         bool hover = false;
 
+        TextDrawable td = new TextDrawableFreetype();
+
         public override void Draw() {
             //PxVector mv = Mouse.GetState().Position.PxVector();
             //PxVector mv = System.Windows.Forms.Control.MousePosition.PxVector();
@@ -34,6 +36,10 @@ namespace Xybrid.UI {
             }
             else d = ThemeManager.FetchDrawable("controls.button.default.idle");
             d.Draw(Parent, ViewRect);
+
+            //td.Text = "I'm a button!";
+            //td.Text = "hello";
+            td.Draw(Parent, ViewRect);
         }
 
         public override bool IsDraggable(int button) { return button == 0; }
@@ -42,7 +48,13 @@ namespace Xybrid.UI {
         }
         public override bool OnScroll(int scroll) {
             Size += new PxVector(0, scroll * 4);
+            td.Text = "Size: " + Size.Y;
             return true;
+        }
+
+        public override void OnMouseUp(InputState input, int button) {
+            Debug.WriteLine("blah blah up " + button);
+            td.Text = "I'm le banana :D";
         }
     }
 }
