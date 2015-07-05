@@ -148,43 +148,9 @@ namespace Xybrid {
             return true;
         }
 
-        bool ainit = false;
-        static RenderTarget2D blah;
-
         protected override void Draw(GameTime gameTime) {
             if (currentForm.WindowState == FormWindowState.Minimized) return; // no draw for you
             currentForm.windowDef.Draw();
-            /*if (!ainit) {
-                ainit = true;
-
-                blah = new RenderTarget2D(GraphicsDevice, 1, 1);
-                GraphicsDevice.SetRenderTarget(blah);
-                GraphicsDevice.Clear(Color.White);
-
-                
-                
-                return;
-            }
-
-            MouseState ms = Mouse.GetState(Window);
-            System.Drawing.Point mp = currentForm.PointToClient(new System.Drawing.Point(ms.X, ms.Y));
-            spriteBatch.GraphicsDevice.Clear(new Color((float)mp.X / currentForm.ClientRectangle.Width, 0f, 0f));
-            KeyboardState ks = Keyboard.GetState();
-            if (ks.IsKeyDown(Keys.A)) spriteBatch.GraphicsDevice.Clear(new Color(0f, 1f, 0f));
-            if (GetWindowUnderCursor() == currentForm.Handle) spriteBatch.GraphicsDevice.Clear(Color.Blue);
-            
-            spriteBatch.Begin();
-            spriteBatch.Draw(blah, new Rectangle(88, 88, 88, 88), new Color(127, 0, 255));
-            spriteBatch.End();
-
-            Canvas c = new Canvas(currentForm.target);
-            Drawable d = ThemeManager.FetchDrawable("controls.button.default.press");
-            d.Draw(c, new Xynapse.UI.PxRect(4, 4, 128, 32));
-            d.Draw(c, new Xynapse.UI.PxRect(4, 48, 12, 12));
-            
-            
-            DrawBatch.Target = null;
-            //base.Draw(gameTime);*/
         }
 
         protected override void EndDraw() {

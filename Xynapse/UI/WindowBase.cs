@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Xynapse.Interop.Host;
+
 namespace Xynapse.UI {
     public class WindowBase : UIContainer {
         protected DrawableCanvas _canvas;
@@ -21,7 +23,7 @@ namespace Xynapse.UI {
             MaximumSize = new PxVector(99999, 99999);
         }
 
-        public void Open() { Xynapse.Interop.Host.HostInterop.openWindow(this); }
+        public void Open() { Xynapse.Interop.Host.HostInterop.Host.OpenWindow(this); }
 
         #region Events
         public virtual bool OnClose() { return false; }

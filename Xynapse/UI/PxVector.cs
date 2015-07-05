@@ -14,6 +14,8 @@ namespace Xynapse.UI {
 
         public static bool operator ==(PxVector left, PxVector right) { return left.X == right.X && left.Y == right.Y; }
         public static bool operator !=(PxVector left, PxVector right) { return left.X != right.X || left.Y != right.Y; }
+        public override bool Equals(object obj) { return (obj is PxVector && (PxVector)obj == this); }
+        public override int GetHashCode() { return ((Y * 2) + 1) + (X * 2); } // interleave
 
         public PxVector ClampTo(PxRect rect) { return new PxVector(Math.Max(rect.X, Math.Min(X, rect.X + rect.W)), Math.Max(rect.Y, Math.Min(Y, rect.Y + rect.H))); }
 
