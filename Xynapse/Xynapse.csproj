@@ -62,6 +62,8 @@
     <Compile Include="Interop\Host\HostInterop.cs" />
     <Compile Include="UI\Drawable.cs" />
     <Compile Include="UI\DrawableCanvas.cs" />
+    <Compile Include="UI\DrawableStack.cs" />
+    <Compile Include="UI\DrawableStateCollection.cs" />
     <Compile Include="UI\DrawColor.cs" />
     <Compile Include="UI\DrawContext.cs" />
     <Compile Include="UI\FxVector.cs" />

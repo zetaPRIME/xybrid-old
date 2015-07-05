@@ -8,6 +8,9 @@ namespace Xynapse.UI {
     public enum TextAlign {
         Left, Right, Center
     }
+    public enum TextVAlign {
+        Top, Bottom, Middle
+    }
 
     public abstract class TextDrawable : Drawable {
         public abstract string Text { get; set; }

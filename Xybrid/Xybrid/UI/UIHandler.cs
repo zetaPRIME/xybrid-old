@@ -152,6 +152,7 @@ namespace Xybrid {
         static RenderTarget2D blah;
 
         protected override void Draw(GameTime gameTime) {
+            if (currentForm.WindowState == FormWindowState.Minimized) return; // no draw for you
             currentForm.windowDef.Draw();
             /*if (!ainit) {
                 ainit = true;

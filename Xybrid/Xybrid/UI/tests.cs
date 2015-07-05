@@ -39,6 +39,7 @@ namespace Xybrid.UI {
 
             //td.Text = "I'm a button!";
             //td.Text = "hello";
+            td.Alignment = TextAlign.Center;
             td.Draw(Parent, ViewRect);
         }
 

@@ -142,7 +142,13 @@ namespace Xybrid.Graphics {
         public override void Draw(DrawContext context, PxRect rect, PxRect? sampleRect = null, DrawColor? color = null) {
             if (dirty) { BuildTexture(); dirty = false; }
             context.Set();
-            DrawBatch.Draw(texture, new PxRect(rect.Position, texture.Bounds.Size.PxVector()), sampleRect, color);
+
+            int hoff = 0;
+            int voff = (rect.H / 2) - (texture.Bounds.Height / 2);
+            if (align == TextAlign.Right) hoff = rect.W - texture.Bounds.Width;
+            else if (align == TextAlign.Center) hoff = (rect.W / 2) - (texture.Bounds.Width / 2);
+
+            DrawBatch.Draw(texture, new PxRect(rect.Position + new PxVector(hoff, voff), texture.Bounds.Size.PxVector()), sampleRect, color);
             //DrawBatch.Draw(texture, rect, sampleRect, color);
         }
 
