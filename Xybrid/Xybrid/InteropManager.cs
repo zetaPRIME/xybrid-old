@@ -19,6 +19,7 @@ namespace Xybrid {
             public override DrawableCanvas GetCanvas(int width, int height) { return new Canvas(width, height); }
 
             public override void OpenWindow(WindowBase window) { UIManager.OpenWindow(window); }
+            public override void SetDefaults(UIControl control, string type) { ThemeManager.SetDefaults(control, type); }
         }
 
         public static void Init() {

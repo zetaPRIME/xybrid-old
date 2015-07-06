@@ -7,6 +7,18 @@ using System.Threading.Tasks;
 using Xynapse.UI;
 
 namespace Xynapse.Input {
+    public enum InputModifier {
+        None = 0,
+        Ctrl = 1,
+        Alt = 2,
+        Shift = 4,
+        
+        CtrlShift = 5,
+        CtrlAlt = 3,
+        AltShift = 6,
+        CtrlAltShift = 7
+    }
+
     public class InputState {
         public const int MaxTrack = 60 * 60;
 
@@ -31,5 +43,19 @@ namespace Xynapse.Input {
             return lastPressed[key] < lr;
         }
         public bool KeyReleased(Keys key) { return lastReleased.ContainsKey(key) && lastReleased[key] == 0; }
+
+        public bool Ctrl { get { return KeyDown(Keys.LeftControl) || KeyDown(Keys.RightControl); } }
+        public bool Alt { get { return KeyDown(Keys.LeftAlt) || KeyDown(Keys.RightAlt); } }
+        public bool Shift { get { return KeyDown(Keys.LeftShift) || KeyDown(Keys.RightShift); } }
+
+        public InputModifier Modifier {
+            get {
+                int res = 0;
+                if (Ctrl) res += 1;
+                if (Alt) res += 2;
+                if (Shift) res += 4;
+                return (InputModifier)res;
+            }
+        }
     }
 }

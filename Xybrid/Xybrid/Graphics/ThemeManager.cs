@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Ionic.Zip;
 
 using Xynapse.UI;
+using Xynapse.UI.Controls;
 
 namespace Xybrid.Graphics {
     public static class ThemeManager {
@@ -72,5 +73,16 @@ namespace Xybrid.Graphics {
             if (assetsDrawableDefault.ContainsKey(name)) return assetsDrawableDefault[name];
             return null;
         }
+
+        #region Control theming and related
+        public static void SetDefaults(UIControl control, string type) {
+            { var c = control as Button; if (c != null) { SetDefaults(c, type); return; } }
+        }
+        public static void SetDefaults(Button btn, string type) {
+            btn.Label = new TextDrawableFreetype();
+            btn.Label.Alignment = TextAlign.Center;
+            btn.Background = new DrawableStates().Add("idle", FetchDrawable("controls.button.default.idle")).Add("hover", FetchDrawable("controls.button.default.hover")).Add("press", FetchDrawable("controls.button.default.press"));
+        }
+        #endregion
     }
 }

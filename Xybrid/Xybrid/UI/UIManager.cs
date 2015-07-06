@@ -58,7 +58,7 @@ namespace Xybrid.UI {
             form.Show();
         }
 
-        public static UIForm GetForm(WindowBase window) { foreach (UIForm wind in windows) if (wind.windowDef == window) return wind; return null; }
+        public static UIForm GetForm(WindowBase window) { foreach (UIForm wind in windows) if (wind.window == window) return wind; return null; }
 
         internal static UIForm dragForm = null;
     }

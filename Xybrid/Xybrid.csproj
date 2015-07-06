@@ -125,6 +125,7 @@
       <DependentUpon>UIForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Xybrid\UI\UIManager.cs" />
+    <Compile Include="Xybrid\UI\XybridWindowFrame.cs" />
     <Compile Include="Xybrid\Util\Conversions.cs" />
     <Compile Include="Xybrid\Util\RectTools.cs" />
     <Compile Include="Xybrid\WindowMain.cs" />

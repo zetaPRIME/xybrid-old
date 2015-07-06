@@ -16,6 +16,7 @@ namespace Xybrid.Graphics {
         private static RenderTarget2D target = null;
         public static RenderTarget2D Target { get { return target; } set { if (value == target) return; GraphicsManager.device.SetRenderTarget(target); sb.End(); sb.Begin(); target = value; } }
         internal static SpriteBatch sb = null;
+        public static PxVector drawOffset = new PxVector(0, 0);
 
         public static void Init() {
             sb = new SpriteBatch(GraphicsManager.device);
@@ -29,12 +30,12 @@ namespace Xybrid.Graphics {
         public static void Clear(RenderTarget2D tgt, DrawColor color) { Clear(tgt, color.Color()); } // take Xynapse color
 
         public static void Draw(Texture2D texture, PxRect rect, PxRect? sampleRect, DrawColor? color) {
-            sb.Draw(texture, rect.Rectangle(), (sampleRect == null) ? null : (Rectangle?)sampleRect.Value.Rectangle(), (color == null) ? Color.White : color.Value.Color());
+            sb.Draw(texture, (rect + drawOffset).Rectangle(), (sampleRect == null) ? null : (Rectangle?)sampleRect.Value.Rectangle(), (color == null) ? Color.White : color.Value.Color());
         }
 
         public static void Draw(Texture2D texture, FxVector position, FxVector? align, PxRect? sampleRect, DrawColor? color, float rotation, FxVector? scale) {
             Vector2 origin = new Vector2(texture.Width, texture.Height) * align.GetValueOrDefault(new FxVector(0.5f, 0.5f)).Vector2();
-            sb.Draw(texture, position.Vector2(), (sampleRect == null) ? null : (Rectangle?)sampleRect.Value.Rectangle(), (color == null) ? Color.White : color.Value.Color(), rotation, origin, scale.GetValueOrDefault(new FxVector(1, 1)).Vector2(), SpriteEffects.None, 0);
+            sb.Draw(texture, (position + drawOffset).Vector2(), (sampleRect == null) ? null : (Rectangle?)sampleRect.Value.Rectangle(), (color == null) ? Color.White : color.Value.Color(), rotation, origin, scale.GetValueOrDefault(new FxVector(1, 1)).Vector2(), SpriteEffects.None, 0);
         }
     }
 }

@@ -77,6 +77,7 @@ namespace Xynapse.UI {
         }
 
         public virtual void Set() { canvas.Set(); }
+        public virtual void AddOffset(PxVector offset) { canvas.AddOffset(offset); }
 
         public virtual void OnChildResize(UIControl child) { }
     }

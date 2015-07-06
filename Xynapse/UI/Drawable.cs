@@ -24,4 +24,13 @@ namespace Xynapse.UI {
         public static DrawableStack operator +(DrawableStack left, Drawable right) { return left.Copy.Add(right); }
         public static DrawableStack operator +(Drawable left, DrawableStack right) { return right.Copy.Insert(right, 0); }
     }
+
+    public class DrawableProxy : Drawable {
+        Drawable inner;
+        public DrawableProxy(Drawable link) { inner = link; }
+        public void Set(Drawable link) { inner = link; }
+
+        public override void Draw(DrawContext context, PxRect rect, PxRect? sampleRect = null, DrawColor? color = null) { inner.Draw(context, rect, sampleRect, color); }
+        public override void Draw(DrawContext context, FxVector position, FxVector? align = null, PxRect? sampleRect = null, DrawColor? color = null, float rotation = 0, FxVector? scale = null) { inner.Draw(context, position, align, sampleRect, color, rotation, scale); }
+    }
 }

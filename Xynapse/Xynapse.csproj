@@ -60,10 +60,11 @@
     <Compile Include="Input\InputState.cs" />
     <Compile Include="Input\Keys.cs" />
     <Compile Include="Interop\Host\HostInterop.cs" />
+    <Compile Include="UI\Controls\Button.cs" />
     <Compile Include="UI\Drawable.cs" />
     <Compile Include="UI\DrawableCanvas.cs" />
     <Compile Include="UI\DrawableStack.cs" />
-    <Compile Include="UI\DrawableStateCollection.cs" />
+    <Compile Include="UI\DrawableStates.cs" />
     <Compile Include="UI\DrawColor.cs" />
     <Compile Include="UI\DrawContext.cs" />
     <Compile Include="UI\FxVector.cs" />
@@ -71,8 +72,10 @@
     <Compile Include="UI\PxVector.cs" />
     <Compile Include="UI\TextDrawable.cs" />
     <Compile Include="UI\UIContainer.cs" />
+    <Compile Include="UI\UIContainerFlat.cs" />
     <Compile Include="UI\UIControl.cs" />
     <Compile Include="UI\WindowBase.cs" />
+    <Compile Include="UI\WindowFrame.cs" />
     <Compile Include="Util\ListAccessor.cs" />
   </ItemGroup>
   <ItemGroup>

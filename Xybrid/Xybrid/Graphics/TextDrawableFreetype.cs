@@ -66,6 +66,7 @@ namespace Xybrid.Graphics {
                 tw += (float)face.Glyph.Advance.X;
                 if (face.HasKerning && i < text.Length - 1)  tw += (float)face.GetKerning(cnum, face.GetCharIndex(text[i + 1]), KerningMode.Default).X;
                 th = Math.Max(th, (float)face.Glyph.Metrics.Height);
+                
             }
             if (tw == 0 && th == 0) {
                 face.LoadGlyph(face.GetCharIndex(' '), loadFlags, loadTarget);
@@ -74,10 +75,12 @@ namespace Xybrid.Graphics {
                 th = (float)face.Glyph.Metrics.Height;
             }
 
-            Bitmap bmp = new Bitmap((int)Math.Ceiling(tw), (int)Math.Ceiling(th));
+            Bitmap bmp = new Bitmap((int)Math.Ceiling(tw), (int)Math.Ceiling(th*2)); // assumption that any downstem is at most half the height of a capital letter
+            cy = th * 0.5f; // adjustment for such
             //Bitmap bmp = new Bitmap(128, 32);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
             g.Clear(System.Drawing.Color.Transparent);
+            //g.Clear(System.Drawing.Color.DimGray);
 
             for (int i = 0; i < text.Length; i++) {
                 char c = text[i];
@@ -93,8 +96,7 @@ namespace Xybrid.Graphics {
 
                 FTBitmap ftb = face.Glyph.Bitmap; // lol ftb
                 Bitmap cb = ftb.ToGdipBitmap(System.Drawing.Color.White);
-                g.DrawImageUnscaled(cb, (int)Math.Round(cx + face.Glyph.BitmapLeft), (int)Math.Round(cy + (bmp.Height - face.Glyph.BitmapTop)));
-                //g.DrawImageUnscaled(cb, 4*i, 4);
+                g.DrawImageUnscaled(cb, (int)Math.Round(cx + face.Glyph.BitmapLeft), (int)Math.Round(cy + (Math.Ceiling(th) - face.Glyph.BitmapTop))); // th and not bitmap.height
                 cx += (float)face.Glyph.Metrics.HorizontalAdvance;
                 cy += (float)face.Glyph.Advance.Y;
                 if (face.HasKerning && i < text.Length - 1) cx += (float)face.GetKerning(cnum, face.GetCharIndex(text[i + 1]), KerningMode.Default).X;

@@ -37,7 +37,9 @@ namespace Xybrid.Graphics {
 
         public override void Set() {
             DrawBatch.Target = target;
+            DrawBatch.drawOffset = new PxVector(0, 0);
         }
+        public override void AddOffset(PxVector offset) { DrawBatch.drawOffset += offset; }
 
         public override void Draw(DrawContext context, PxRect rect, PxRect? sampleRect = null, DrawColor? color = null) {
             throw new NotImplementedException();

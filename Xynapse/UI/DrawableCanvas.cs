@@ -19,5 +19,6 @@ namespace Xynapse.UI {
 
         // DrawContext
         public abstract void Set();
+        public abstract void AddOffset(PxVector offset);
     }
 }

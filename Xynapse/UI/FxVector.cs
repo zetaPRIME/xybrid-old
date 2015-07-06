@@ -9,5 +9,7 @@ namespace Xynapse.UI {
         public readonly float X;
         public readonly float Y;
         public FxVector(float x, float y) { X = x; Y = y; }
+
+        public static FxVector operator +(FxVector left, PxVector right) { return new FxVector(left.X + right.X, left.Y + right.Y); }
     }
 }

@@ -30,37 +30,50 @@ using Size = System.Drawing.Size;
 namespace Xybrid {
     public partial class UIForm : Form {
         public UIForm(WindowBase window) {
-            windowDef = window;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.window = window;
+            frame = new XybridWindowFrame(window, this);
             InitializeComponent();
         }
 
-        public WindowBase windowDef;
-        //public GameWindow window;
+        public WindowBase window;
+        public XybridWindowFrame frame;
         public SwapChainRenderTarget target;
 
-        //public XPoint? mpoint = null;
+        public override Size MinimumSize { get { return SizeFromClientSize(new Size(frame.ClientToWindowSize(window.MinimumSize).DPoint())); } }
+        public override Size MaximumSize { get { return SizeFromClientSize(new Size(frame.ClientToWindowSize(window.MaximumSize).DPoint())); } }
 
-        public override Size MinimumSize { get { return SizeFromClientSize(new Size(windowDef.MinimumSize.DPoint())); } }
-        public override Size MaximumSize { get { return SizeFromClientSize(new Size(windowDef.MaximumSize.DPoint())); } }
+        const int WS_MINIMIZEBOX = 0x20000;
+        const int CS_DBLCLKS = 0x8;
+        protected override CreateParams CreateParams {
+            get {
+                CreateParams cp = base.CreateParams;
+                cp.Style |= WS_MINIMIZEBOX;
+                cp.ClassStyle |= CS_DBLCLKS;
+                return cp;
+            }
+        }
 
-        string prevName = "";
+        //internal string prevName = "";
 
         protected override void OnLoad(EventArgs e) {
-            windowDef.Size = windowDef.DefaultSize;
-            ClientSize = new System.Drawing.Size(windowDef.Size.DPoint());
+            window.Size = window.DefaultSize;
+            ClientSize = new System.Drawing.Size(window.Size.DPoint());
 
-            /*target = new SwapChainRenderTarget(GraphicsManager.device, this.Handle, ClientSize.Width, ClientSize.Height, false, SurfaceFormat.Color, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents, PresentInterval.Default);
-            windowDef.canvas = new Canvas(target);*/
+            frame.Position = this.PointToScreen(new DPoint(0, 0)).PxVector();
+            frame.Size = new PxVector(ClientSize.Width, ClientSize.Height);
+            frame.SetWindowDims();
+
             RemakeTarget();
         }
 
         protected override void OnMove(EventArgs e) {
-            windowDef.Position = this.PointToScreen(new DPoint(0, 0)).PxVector();
+            frame.Position = this.PointToScreen(new DPoint(0, 0)).PxVector();
         }
 
         protected override void OnResize(EventArgs e) {
             RemakeTarget();
-            windowDef.Size = new PxVector(ClientSize.Width, ClientSize.Height);
+            frame.Size = new PxVector(ClientSize.Width, ClientSize.Height);
         }
 
         void RemakeTarget() {
@@ -70,12 +83,12 @@ namespace Xybrid {
                 int width = ClientSize.Width; //(int)Math.Ceiling((float)ClientSize.Width / step) * step;
                 int height = ClientSize.Height; //(int)Math.Ceiling((float)ClientSize.Height / step) * step;
                 target = new SwapChainRenderTarget(GraphicsManager.device, Handle, width, height, false, SurfaceFormat.Color, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents, PresentInterval.Default);
-                windowDef.canvas = new Canvas(target);
+                frame.canvas = new Canvas(target);
             }
         }
 
         protected override void OnClosing(CancelEventArgs e) {
-            if (windowDef.OnClose()) {
+            if (window.OnClose()) {
                 UIManager.windows.Remove(this);
                 if (UIManager.dragForm == this) UIManager.dragForm = null;
             }
@@ -101,7 +114,7 @@ namespace Xybrid {
                     mouseOverThisFrame = swap;
                     mouseOverThisFrame.Clear();
                 }
-                if (mouseOver) windowDef.Dive((ctl) => ctl.ScreenRect.Contains(input.MousePosition), (ctl) => ctl.InterceptMouse(input.MousePosition - ctl.ScreenRect.Position), (ctl) => mouseOverThisFrame.Add(ctl));
+                if (mouseOver) frame.Dive((ctl) => ctl.ScreenRect.Contains(input.MousePosition), (ctl) => ctl.InterceptMouse(input.MousePosition - ctl.ScreenRect.Position), (ctl) => mouseOverThisFrame.Add(ctl));
 
                 foreach (UIControl ctl in mouseOverLastFrame) if (!mouseOverThisFrame.Contains(ctl)) ctl.OnMouseLeave(input);
                 foreach (UIControl ctl in mouseOverThisFrame) if (!mouseOverLastFrame.Contains(ctl)) ctl.OnMouseEnter(input);
@@ -122,7 +135,16 @@ namespace Xybrid {
                     }
                 }
 
-                if (input.scrollWheel != 0) foreach (UIControl ctl in mouseOverThisFrame) if (ctl.OnScroll(input.scrollWheel)) break;
+                if (input.scrollWheel != 0) foreach (UIControl ctl in mouseOverThisFrame) {
+                    if (ctl.OnScroll(input.scrollWheel)) break;
+                    else if (ctl == mouseOverThisFrame.Last()) {
+                        UIControl ctc = ctl.Parent;
+                        while (ctc != null) {
+                            if (ctc.OnScroll(input.scrollWheel)) break;
+                            ctc = ctc.Parent;
+                        }
+                    }
+                }
                 
             }
             else if (UIManager.dragForm == this) {

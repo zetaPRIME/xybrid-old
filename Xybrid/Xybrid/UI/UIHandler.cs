@@ -125,9 +125,9 @@ namespace Xybrid {
 
             currentForm.ProcessInputEvents(inputState, currentForm.Handle == mouseOverWindow);
 
-            currentForm.windowDef.Update();
+            currentForm.frame.Update();
 
-            string title = currentForm.windowDef.Title;
+            string title = currentForm.window.Title;
             if (currentForm.Text != title) currentForm.Text = title;
 
             /*MouseState ms = Mouse.GetState();
@@ -150,7 +150,7 @@ namespace Xybrid {
 
         protected override void Draw(GameTime gameTime) {
             if (currentForm.WindowState == FormWindowState.Minimized) return; // no draw for you
-            currentForm.windowDef.Draw();
+            currentForm.frame.Draw();
         }
 
         protected override void EndDraw() {

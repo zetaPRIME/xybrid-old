@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 namespace Xynapse.UI {
     public interface DrawContext {
         void Set();
+        void AddOffset(PxVector offset);
     }
 }
