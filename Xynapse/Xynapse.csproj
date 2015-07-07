@@ -57,6 +57,7 @@
     <Compile Include="Data Types\Command.cs" />
     <Compile Include="Data Types\CommandBuffer.cs" />
     <Compile Include="Data Types\PCMBuffer.cs" />
+    <Compile Include="Data Types\RollingPCMBuffer.cs" />
     <Compile Include="Input\InputState.cs" />
     <Compile Include="Input\Keys.cs" />
     <Compile Include="Interop\Host\HostInterop.cs" />

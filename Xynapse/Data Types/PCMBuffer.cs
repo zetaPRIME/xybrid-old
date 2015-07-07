@@ -13,6 +13,7 @@ namespace Xynapse.DataTypes {
             data = new List<List<double>>();
             this.sampleRate = sampleRate;
         }*/
+
         public PCMBuffer(bool nothing = false) {
             sampleRate = -1;
             _sampleLength = -1;
@@ -24,6 +25,15 @@ namespace Xynapse.DataTypes {
             this.data = new List<double[]>();
             foreach (double[] ch in data) this.data.Add(new List<double>(ch).ToArray());
 
+        }
+
+        public double this[int channel, int sample] {
+            get {
+                if (channel > data.Count) throw new ArgumentOutOfRangeException("Invalid channel!");
+                double[] ch = data[channel];
+                if (ch.Length < sample) return 0;
+                return ch[sample];
+            }
         }
 
         int _sampleLength;

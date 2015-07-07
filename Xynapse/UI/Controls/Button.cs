@@ -54,5 +54,6 @@ namespace Xynapse.UI.Controls {
         // action
         public Action[] clickAction = new Action[3];
         public Button OnButtonClick(int button, Action action) { clickAction[button] = action; return this; }
+        public Button OnButtonClick(Action action) { return OnButtonClick(0, action); }
     }
 }

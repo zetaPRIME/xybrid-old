@@ -59,6 +59,10 @@ namespace Xybrid.Graphics {
 
             float cx = 0, cy = 0, tw = 0, th = 0;
 
+            // base size
+            face.LoadGlyph(face.GetCharIndex('A'), loadFlags, loadTarget);
+            th = (float)face.Glyph.Metrics.Height;
+
             for (int i = 0; i < text.Length; i++) {
                 char c = text[i];
                 uint cnum = face.GetCharIndex(c);
@@ -68,13 +72,8 @@ namespace Xybrid.Graphics {
                 th = Math.Max(th, (float)face.Glyph.Metrics.Height);
                 
             }
-            if (tw == 0 && th == 0) {
-                face.LoadGlyph(face.GetCharIndex(' '), loadFlags, loadTarget);
-                tw = (float)face.Glyph.Advance.X;
-                face.LoadGlyph(face.GetCharIndex('A'), loadFlags, loadTarget);
-                th = (float)face.Glyph.Metrics.Height;
-            }
-
+            if (tw == 0) tw = th;
+            
             Bitmap bmp = new Bitmap((int)Math.Ceiling(tw), (int)Math.Ceiling(th*2)); // assumption that any downstem is at most half the height of a capital letter
             cy = th * 0.5f; // adjustment for such
             //Bitmap bmp = new Bitmap(128, 32);

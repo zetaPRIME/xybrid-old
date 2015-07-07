@@ -49,6 +49,7 @@ namespace Xybrid {
             get {
                 CreateParams cp = base.CreateParams;
                 cp.Style |= WS_MINIMIZEBOX;
+                //cp.Style |= 0x00010000; // maximizebox?
                 cp.ClassStyle |= CS_DBLCLKS;
                 return cp;
             }
@@ -69,6 +70,8 @@ namespace Xybrid {
 
         protected override void OnMove(EventArgs e) {
             frame.Position = this.PointToScreen(new DPoint(0, 0)).PxVector();
+
+            MaximizedBounds = new System.Drawing.Rectangle(new DPoint(0, 0), Screen.FromControl(this).WorkingArea.Size);
         }
 
         protected override void OnResize(EventArgs e) {
