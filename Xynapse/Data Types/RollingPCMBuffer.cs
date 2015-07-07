@@ -16,6 +16,8 @@ namespace Xynapse.DataTypes {
         int samplesWritten = 0; // number of samples written TO THE LAST SEGMENT
         int samplesConsumed = 0;
 
+        public int SampleLength { get { return -samplesConsumed + ((numSegments - 1) * segmentLength) + samplesWritten; } }
+
         public RollingPCMBuffer(int channels = 2, int segmentLength = 64, int premake = 0) {
             this.channels = channels;
             this.segmentLength = segmentLength;
