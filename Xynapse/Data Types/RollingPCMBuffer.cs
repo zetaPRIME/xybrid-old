@@ -25,7 +25,7 @@ namespace Xynapse.DataTypes {
         }
 
         public void Add(PCMBuffer buffer) {
-            if (buffer.Channels != channels) throw new ArgumentException("Wrong number of channels!");
+            if (buffer.Channels != channels) throw new ArgumentException("Wrong number of channels");
 
             int length = buffer.SampleLength;
             int pos = 0;
@@ -92,7 +92,7 @@ namespace Xynapse.DataTypes {
         }
 
         void ConsumeSegment() {
-            if (first == null) throw new Exception("No segment to consume!");
+            if (first == null) throw new Exception("No segment to consume");
             Segment s = first;
             first = s.next;
             s.next = null;
