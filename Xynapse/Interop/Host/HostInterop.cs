@@ -20,6 +20,6 @@ namespace Xynapse.Interop.Host {
         public virtual DrawableCanvas GetCanvas(int width, int height) { return null; }
 
         public virtual void OpenWindow(WindowBase window) { }
-        public virtual void SetDefaults(UIControl control, string type = "default") { }
+        public virtual void SetDefaults(UIControl control, string subtype = "default") { }
     }
 }

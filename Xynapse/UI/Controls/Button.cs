@@ -12,8 +12,11 @@ namespace Xynapse.UI.Controls {
         public TextDrawable Label { get; set; }
         public bool[] showPressOnButton = { true, false, false };
 
-        public Button() {
-            Interop.Host.HostInterop.Host.SetDefaults(this);
+        string subtype;
+
+        public Button(string subtype = "default") {
+            Interop.Host.HostInterop.Host.SetDefaults(this, subtype);
+            this.subtype = subtype;
         }
 
         public string Text { get { return Label.Text; } set { Label.Text = value; } }

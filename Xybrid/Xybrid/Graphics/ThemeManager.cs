@@ -74,14 +74,36 @@ namespace Xybrid.Graphics {
             return null;
         }
 
-        #region Control theming and related
-        public static void SetDefaults(UIControl control, string type) {
-            { var c = control as Button; if (c != null) { SetDefaults(c, type); return; } }
+        #region Caching etc.
+        static Dictionary<string, DrawableStates> controlStates = new Dictionary<string, DrawableStates>();
+        static void BuildControlStates(DrawableStatesProxy proxy, string control, string subtype, params string[] assets) {
+            DrawableStates states = new DrawableStates();
+            foreach (string state in assets) {
+                Drawable d = FetchDrawable("controls." + control + "." + subtype + "." + state);
+                if (d == null) d = FetchDrawable("controls." + control + ".default." + state);
+                if (d == null) d = Drawable.None;
+                states[state] = d;
+            }
+            proxy.Set(states);
         }
-        public static void SetDefaults(Button btn, string type) {
+        public static DrawableStates FetchControlStates(string control, string subtype, params string[] assets) {
+            string fullName = control + "." + subtype;
+            if (controlStates.ContainsKey(fullName)) return controlStates[fullName];
+            DrawableStatesProxy proxy = new DrawableStatesProxy(null);
+            BuildControlStates(proxy, control, subtype, assets);
+            controlStates.Add(fullName, proxy);
+            return proxy;
+        }
+        #endregion
+
+        #region Control theming and related
+        public static void SetDefaults(UIControl control, string subtype) {
+            { var c = control as Button; if (c != null) { SetDefaults(c, subtype); return; } }
+        }
+        public static void SetDefaults(Button btn, string subtype) {
             btn.Label = new TextDrawableFreetype();
             btn.Label.Alignment = TextAlign.Center;
-            btn.Background = new DrawableStates().Add("idle", FetchDrawable("controls.button.default.idle")).Add("hover", FetchDrawable("controls.button.default.hover")).Add("press", FetchDrawable("controls.button.default.press"));
+            btn.Background = FetchControlStates("button", subtype, "idle", "hover", "press");
         }
         #endregion
     }

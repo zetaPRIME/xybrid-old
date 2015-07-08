@@ -27,6 +27,7 @@ namespace Xynapse.UI {
         public DrawableStatesProxy(DrawableStates link) { inner = link; }
 
         public void Set(DrawableStates link) { inner = link; }
+        public DrawableStates Get() { return inner; }
 
         public override Drawable this[string name] { get { return inner[name]; } set { inner[name] = value; } }
         public override DrawableStates Clear() { inner.Clear(); return this; }

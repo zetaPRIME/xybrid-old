@@ -26,7 +26,14 @@ namespace Xybrid {
             b.Rect = new PxRect(128, 128, 128, 32);
             b.Text = "Hello!";
             b.OnButtonClick(0, () => b.Position += new PxVector(4, 4))
-                .OnButtonClick(1, () => b.Position += new PxVector(-4, 4));
+                .OnButtonClick(1, () => b.Position += new PxVector(-4, 4))
+                .OnButtonClick(2, () => {
+                    DrawableStates st = (b.Background as DrawableStatesProxy).Get();
+                    Drawable cc = st["idle"];
+                    st["idle"] = st["hover"];
+                    st["hover"] = st["press"];
+                    st["press"] = cc;
+                });
         }
 
         public override PxVector DefaultSize { get { return new PxVector(854, 480); } }
