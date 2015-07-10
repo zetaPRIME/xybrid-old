@@ -141,8 +141,8 @@ namespace Xybrid {
                 }
 
                 // set kb focus
-                if (input.MousePressed(0)) {
-                    UIControl focus = mouseOverThisFrame.Last();
+                if (mouseOver && input.MousePressed(0)) {
+                    UIControl focus = mouseOverThisFrame.Count == 0 ? window : mouseOverThisFrame.Last();
                     while (focus != null) {
                         if (focus.CanTakeKeyboardFocus(input)) break;
                         focus = focus.Parent;
