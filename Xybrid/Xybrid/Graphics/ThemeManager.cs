@@ -70,7 +70,9 @@ namespace Xybrid.Graphics {
         }
 
         public static Drawable FetchDrawable(string name) {
-            if (assetsDrawableDefault.ContainsKey(name)) return assetsDrawableDefault[name];
+            Drawable output = null;
+            //if (assetsDrawableTheme.TryGetValue(name, out output)) return output;
+            if (assetsDrawableDefault.TryGetValue(name, out output)) return output;
             return null;
         }
 

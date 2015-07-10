@@ -35,6 +35,10 @@ namespace Xynapse.Input {
         public Dictionary<Keys, int> lastPressed = new Dictionary<Keys, int>();
         public Dictionary<Keys, int> lastReleased = new Dictionary<Keys, int>();
 
+        public List<Keys> pressedQueue = new List<Keys>();
+        public bool ConsumeEvent(Keys key) { return pressedQueue.Remove(key); }
+        public void ConsumeAll() { pressedQueue.Clear(); }
+
         public bool KeyPressed(Keys key) { return lastPressed.ContainsKey(key) && lastPressed[key] == 0; }
         public bool KeyDown(Keys key) {
             if (!lastPressed.ContainsKey(key)) return false;

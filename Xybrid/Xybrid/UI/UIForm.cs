@@ -109,6 +109,8 @@ namespace Xybrid {
         PxVector dragStart, dragLast;
         int dragButton;
 
+        UIControl keyboardFocus;
+
         public void ProcessInputEvents(InputState input, bool mouseOver) {
             if (UIManager.dragForm == null) {
                 {
@@ -138,6 +140,16 @@ namespace Xybrid {
                     }
                 }
 
+                // set kb focus
+                if (input.MousePressed(0)) {
+                    UIControl focus = mouseOverThisFrame.Last();
+                    while (focus != null) {
+                        if (focus.CanTakeKeyboardFocus(input)) break;
+                        focus = focus.Parent;
+                    }
+                    keyboardFocus = focus;
+                }
+
                 if (input.scrollWheel != 0) foreach (UIControl ctl in mouseOverThisFrame) {
                     if (ctl.OnScroll(input.scrollWheel)) break;
                     else if (ctl == mouseOverThisFrame.Last()) {
@@ -162,6 +174,15 @@ namespace Xybrid {
                 }
             }
 
+            if (Focused) { // keyboard
+                if (keyboardFocus == null) keyboardFocus = window;
+                UIControl focus = keyboardFocus;
+
+                while (focus != null && input.pressedQueue.Count > 0) {
+                    focus.OnKeyDown(input);
+                    focus = focus.Parent;
+                }
+            }
         }
         //
         //

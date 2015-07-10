@@ -60,6 +60,10 @@ namespace Xynapse.UI {
         public virtual void OnRightClick(InputState input) { }
         public virtual void OnMiddleClick(InputState input) { }*/
 
+        public virtual bool CanTakeKeyboardFocus(InputState input) { return false; }
+        public virtual void OnKeyDown(InputState input) { }
+        public virtual void OnKeyUp(InputState input) { }
+
         public virtual void Update() { }
         public virtual void Draw() { }
 

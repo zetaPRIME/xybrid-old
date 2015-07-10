@@ -116,7 +116,9 @@ namespace Xybrid {
             keysLastFrame = keysThisFrame;
             keysThisFrame = Keyboard.GetState().GetPressedKeys();
 
-            foreach (Keys k in keysThisFrame) if (!keysLastFrame.Contains(k)) inputState.lastPressed[(XKeys)k] = 0;
+            inputState.pressedQueue.Clear();
+
+            foreach (Keys k in keysThisFrame) if (!keysLastFrame.Contains(k)) { inputState.lastPressed[(XKeys)k] = 0; inputState.pressedQueue.Add((XKeys)k); }
             foreach (Keys k in keysLastFrame) if (!keysThisFrame.Contains(k)) inputState.lastReleased[(XKeys)k] = 0;
         }
         

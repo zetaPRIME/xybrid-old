@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Xynapse;
 using Xynapse.UI;
 using Xynapse.UI.Controls;
+using Xynapse.Input;
 using Xynapse.DataTypes;
 
 using Xybrid.Graphics;
@@ -49,6 +50,15 @@ namespace Xybrid {
         public override bool OnClose() {
             System.Windows.Forms.Application.Exit();
             return true;
+        }
+
+        public override void OnKeyDown(InputState input) {
+            if (input.Shift && input.ConsumeEvent(Keys.X)) OnClose();
+            if (input.Ctrl && input.ConsumeEvent(Keys.Back)) {
+                Button f = AddChild(new Button()).OnButtonClick(() => {});
+                f.Rect = new PxRect(0, 0, 64, 16);
+                f.Text = "derp";
+            }
         }
     }
 }

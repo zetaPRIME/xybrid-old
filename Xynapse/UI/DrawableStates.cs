@@ -10,7 +10,7 @@ namespace Xynapse.UI {
         public DrawableStates() { dict = new Dictionary<string, Drawable>(); }
 
         public virtual Drawable this[string name] {
-            get { if (!dict.ContainsKey(name)) return Drawable.None; return dict[name]; }
+            get { Drawable output; if (!dict.TryGetValue(name, out output)) return Drawable.None; return output; }
             set {
                 if (value == null) { if (dict.ContainsKey(name)) dict.Remove(name); }
                 else if (dict.ContainsKey(name)) dict[name] = value;

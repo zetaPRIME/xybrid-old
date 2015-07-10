@@ -30,5 +30,7 @@ namespace Xynapse.UI {
         #region Events
         public virtual bool OnClose() { return false; }
         #endregion
+
+        public override bool CanTakeKeyboardFocus(Input.InputState input) { return true; }
     }
 }
