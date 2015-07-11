@@ -18,8 +18,8 @@ using Xybrid.Util;
 namespace Xybrid.UI {
     public class testBtn : UIControl {
         public override bool InterceptMouse(PxVector mousePos) { return true; }
-        public override void OnMouseEnter(InputState input) { hover = true; }
-        public override void OnMouseLeave(InputState input) { hover = false; }
+        public override void OnMouseEnter(InputState input) { hover = true; QueueRedraw(); }
+        public override void OnMouseLeave(InputState input) { hover = false; QueueRedraw(); }
         bool hover = false;
 
         TextDrawable td = new TextDrawableFreetype();
@@ -53,9 +53,13 @@ namespace Xybrid.UI {
             return true;
         }
 
+        public override void OnMouseDown(InputState input, int button) {
+            QueueRedraw();
+        }
         public override void OnMouseUp(InputState input, int button) {
             Debug.WriteLine("blah blah up " + button);
             td.Text = "I'm le banana :D";
+            QueueRedraw();
         }
     }
 }

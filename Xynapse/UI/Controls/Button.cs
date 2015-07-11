@@ -19,7 +19,7 @@ namespace Xynapse.UI.Controls {
             this.subtype = subtype;
         }
 
-        public string Text { get { return Label.Text; } set { if (Value == Label.Text) return; Label.Text = value; QueueRedraw(); } }
+        public string Text { get { return Label.Text; } set { if (value == Label.Text) return; Label.Text = value; QueueRedraw(); } }
 
         public bool isHovered = false;
         public bool isPressed = false;
