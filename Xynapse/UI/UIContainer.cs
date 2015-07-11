@@ -26,7 +26,7 @@ namespace Xynapse.UI {
         private PxVector _ScrollOffset__BackingField;
         public virtual PxVector ScrollOffset {
             get { return _ScrollOffset__BackingField; }
-            set { _ScrollOffset__BackingField = value.ClampTo(ScrollBounds); }
+            set { PxVector old = _ScrollOffset__BackingField; _ScrollOffset__BackingField = value.ClampTo(ScrollBounds); if (_ScrollOffset__BackingField != old) QueueRedraw(); }
         }
         public virtual PxRect ScrollBounds { get; set; }
         public PxRect ViewportRect { get { return new PxRect(ScrollOffset, Size); } set { } }
