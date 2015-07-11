@@ -1,0 +1,26 @@
+﻿---
+
+
+Set up two small (50ms?) sample buffers for SharpDX output, keep streams open for writing
+Queue buffers for play in SharpDX
+
+Repeat {
+
+	Until buffer length >= configured length {
+		Read current tickstep sample length
+		Determine commands for given tick {
+			if command row this tick {
+				...
+			}
+			else process commands for multi-tick command codes (arps etc.)
+		}
+		Assemble command buffers, insert into patchboard "input headers"
+		Run plugins for the tick's sample length, bucket by bucket
+		Collect all output headings into 
+		Add mixed tick output buffer to rolling buffer
+		Sleep(0)?
+	}
+	(Start playing here if only now beginning playback)
+	If buffers queued < 2, pull playbuffer length from rolling buffer into unqueued playbuffer and requeue
+
+}
