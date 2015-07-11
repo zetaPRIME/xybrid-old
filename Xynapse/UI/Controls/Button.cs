@@ -19,7 +19,7 @@ namespace Xynapse.UI.Controls {
             this.subtype = subtype;
         }
 
-        public string Text { get { return Label.Text; } set { Label.Text = value; } }
+        public string Text { get { return Label.Text; } set { if (Value == Label.Text) return; Label.Text = value; QueueRedraw(); } }
 
         public bool isHovered = false;
         public bool isPressed = false;
@@ -32,14 +32,15 @@ namespace Xynapse.UI.Controls {
         }
 
         public override bool InterceptMouse(PxVector mousePos) { return true; }
-        public override void OnMouseEnter(InputState input) { isHovered = true; }
-        public override void OnMouseLeave(InputState input) { isHovered = false; }
+        public override void OnMouseEnter(InputState input) { isHovered = true; QueueRedraw(); }
+        public override void OnMouseLeave(InputState input) { isHovered = false; QueueRedraw(); }
 
         public override bool IsDraggable(int button) { return clickAction[button] != null; } // I guess there's no point in registering it if it doesn't lead anywhere
         public override void OnMouseDown(InputState input, int button) {
             if (IsDraggable(button)) {
                 dragKey = button;
                 isPressed = showPressOnButton[button];
+                QueueRedraw();
             }
         }
         public override void OnMouseUp(InputState input, int button) {
@@ -48,10 +49,12 @@ namespace Xynapse.UI.Controls {
                 isPressed = false;
 
                 if (isHovered && clickAction[button] != null) clickAction[button]();
+                QueueRedraw();
             }
         }
         public override void OnDrag(InputState input, int button, PxVector deltaFrame, PxVector deltaStart) {
             isHovered = ScreenRect.Contains(input.MousePosition);
+            QueueRedraw();
         }
 
         // action

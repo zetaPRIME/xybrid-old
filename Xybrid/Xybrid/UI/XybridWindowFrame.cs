@@ -58,6 +58,8 @@ namespace Xybrid.UI {
             }
 
             public override void Draw() {
+                //if (!needsRedraw) return;
+                //needsRedraw = false;
                 ThemeManager.FetchDrawable("window.title.background").Draw(this, ViewRect);
                 label.Text = frame.window.Title;
                 label.Draw(this, new PxRect(labelOffset, 0, W - labelOffset, H));
@@ -201,6 +203,8 @@ namespace Xybrid.UI {
         }
 
         public override void Draw() {
+            if (!needsRedraw) return;
+            needsRedraw = false;
             ThemeManager.FetchDrawable("window.frame.background").Draw(this, this.ViewportRect);
             //ThemeManager.FetchDrawable("window.title.background").Draw(this, new PxRect(0, 0, this.W, titleHeight));
             DrawChildren();

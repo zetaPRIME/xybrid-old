@@ -55,6 +55,7 @@ namespace Xybrid.UI {
             //window.canvas = new Canvas(form.target);
 
             windows.Add(form);
+            form.window.QueueFullRedraw();
             form.Show();
         }
 

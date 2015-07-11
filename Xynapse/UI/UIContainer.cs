@@ -66,8 +66,11 @@ namespace Xynapse.UI {
         }
 
         public override void Draw() {
-            canvas.Clear();
-            DrawChildren();
+            if (needsRedraw) {
+                needsRedraw = false;
+                canvas.Clear();
+                DrawChildren();
+            }
             if (parent != null) canvas.Draw(parent, ViewRect);
         }
 

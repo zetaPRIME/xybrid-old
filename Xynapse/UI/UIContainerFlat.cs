@@ -14,6 +14,8 @@ namespace Xynapse.UI {
         public override void AddOffset(PxVector offset) { parent.AddOffset(offset); }
 
         public override void Draw() {
+            //if (!needsRedraw) return;
+            //needsRedraw = false;
             DrawChildren();
         }
     }

@@ -32,5 +32,9 @@ namespace Xynapse.UI {
         #endregion
 
         public override bool CanTakeKeyboardFocus(Input.InputState input) { return true; }
+
+        public void QueueFullRedraw() {
+            Dive((c) => true, (c) => false, (c) => c.QueueRedraw());
+        }
     }
 }

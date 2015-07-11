@@ -41,11 +41,11 @@ namespace Xybrid {
         
         public override string Title { get { return "Xybrid"; } }
 
-        public override void Draw() {
+        /*public override void Draw() {
             //ThemeManager.FetchDrawable("controls.button.default.idle").Draw(this, this.ViewportRect);
 
             DrawChildren();
-        }
+        }*/
 
         public override bool OnClose() {
             System.Windows.Forms.Application.Exit();

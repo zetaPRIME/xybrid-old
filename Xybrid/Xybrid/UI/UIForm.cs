@@ -79,6 +79,10 @@ namespace Xybrid {
             frame.Size = new PxVector(ClientSize.Width, ClientSize.Height);
         }
 
+        protected override void OnGotFocus(EventArgs e) {
+            window.QueueFullRedraw();
+        }
+
         void RemakeTarget() {
             //const int step = 64;
             if (target == null || target.Width != ClientSize.Width || target.Height != ClientSize.Height) {

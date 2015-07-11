@@ -9,7 +9,8 @@ using Xynapse.Util;
 
 namespace Xynapse.UI {
     public abstract class UIControl {
-        //public readonly DrawableCanvas canvas; // why is this here, seriously
+        protected bool needsRedraw = true;
+        public virtual void QueueRedraw() { needsRedraw = true; if (parent != null) parent.QueueRedraw(); }
 
         // parent, size, position (and property taking parent offset into account) getrect? implement rects
         internal UIContainer parent = null;
@@ -18,17 +19,18 @@ namespace Xynapse.UI {
                 return parent;
             }
             set {
-                if (parent != null) parent.children.Remove(this);
+                if (parent != null) { parent.children.Remove(this); parent.QueueRedraw(); }
                 parent = value;
                 if (parent != null) parent.children.Add(this);
+                QueueRedraw();
             }
         }
 
         public int X, Y, W, H;
-        public PxVector Position { get { return new PxVector(X, Y); } set { X = value.X; Y = value.Y; } }
-        public PxVector Size { get { return new PxVector(W, H); } set { if (value.X == W && value.Y == H) return; W = value.X; H = value.Y; OnResize(); if (parent != null) parent.OnChildResize(this); } } // might as well put onresize there
+        public PxVector Position { get { return new PxVector(X, Y); } set { if (value.X == X && value.Y == Y) return; X = value.X; Y = value.Y; QueueRedraw(); } }
+        public PxVector Size { get { return new PxVector(W, H); } set { if (value.X == W && value.Y == H) return; W = value.X; H = value.Y; QueueRedraw(); OnResize(); if (parent != null) parent.OnChildResize(this); } } // might as well put onresize there
         //public PxRect Rect { get { return new PxRect(Position, Size); } set { Position = value.Position; Size = value.Size; } }
-        public PxRect Rect { get { return new PxRect(X, Y, W, H); } set { X = value.X; Y = value.Y; W = value.W; H = value.H; } }
+        public PxRect Rect { get { return new PxRect(X, Y, W, H); } set { if (value.X == X && value.Y == Y && value.W == W && value.H == H) return; X = value.X; Y = value.Y; W = value.W; H = value.H; QueueRedraw(); } }
 
         public virtual PxRect ViewRect {
             get { if (parent == null) return Rect; return Rect + parent.ScrollOffset; }
