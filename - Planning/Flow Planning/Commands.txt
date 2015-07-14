@@ -1,0 +1,20 @@
+﻿switch between note, channel (and parameter?) with a hotkey (=?)
+
+Note commands {
+	v.. volume (velocity/aftertouch)
+	p.. panning (what scale? 00-7F-FE? 01-80-FF?)
+	f.. fine pitch 0-99 (0x00-0x63)
+	s.. sweep to specified note across number of ticks
+	V.. vibrato? hmm.
+	
+	X.. plugin command header
+	x.. add parameter ^
+}
+
+Channel commands {
+	v.. channel (or signal overall) volume
+	p.. panning
+
+	X.. plugin command header
+	x.. add parameter ^
+}

@@ -35,6 +35,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Flow Planning\Commands.txt" />
     <Content Include="Flow Planning\Playback Thread.txt" />
   </ItemGroup>
   <ItemGroup>
