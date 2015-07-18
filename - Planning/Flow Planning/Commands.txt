@@ -6,6 +6,9 @@ Note commands {
 	f.. fine pitch 0-99 (0x00-0x63)
 	s.. sweep to specified note across number of ticks
 	V.. vibrato? hmm.
+
+	c.. play from cue point (for samplers)
+	C.. play in reverse from cue point
 	
 	X.. plugin command header
 	x.. add parameter ^

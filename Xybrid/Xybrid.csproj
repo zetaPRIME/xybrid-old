@@ -116,6 +116,7 @@
     <Compile Include="Xybrid\Graphics\Drawable9Patch.cs" />
     <Compile Include="Xybrid\Graphics\DrawableTexture.cs" />
     <Compile Include="Xybrid\Graphics\DrawBatch.cs" />
+    <Compile Include="Xybrid\Graphics\FontDef.cs" />
     <Compile Include="Xybrid\Graphics\GraphicsManager.cs" />
     <Compile Include="Xybrid\Graphics\TextDrawableFreetype.cs" />
     <Compile Include="Xybrid\Graphics\ThemeManager.cs" />

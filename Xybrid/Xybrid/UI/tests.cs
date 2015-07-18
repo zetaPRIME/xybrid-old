@@ -24,6 +24,9 @@ namespace Xybrid.UI {
 
         TextDrawable td = new TextDrawableFreetype();
 
+        static SharpFont.Library lib = new SharpFont.Library();
+        static FontDef fd = new FontDef(new SharpFont.Face(lib, "C:\\Windows\\Fonts\\segoeui.ttf"), 14);
+
         public override void Draw() {
             //PxVector mv = Mouse.GetState().Position.PxVector();
             //PxVector mv = System.Windows.Forms.Control.MousePosition.PxVector();
@@ -37,10 +40,12 @@ namespace Xybrid.UI {
             else d = ThemeManager.FetchDrawable("controls.button.default.idle");
             d.Draw(Parent, ViewRect);
 
-            //td.Text = "I'm a button!";
-            //td.Text = "hello";
-            td.Alignment = TextAlign.Center;
-            td.Draw(Parent, ViewRect);
+            //td.Alignment = TextAlign.Center;
+            //td.Draw(Parent, ViewRect);
+
+            Parent.Set();
+            DrawBatch.Draw(fd.Atlas, new FxVector(ViewRect.X + ViewRect.W / 2f, ViewRect.Y + ViewRect.H / 2f), null, fd.GetGlyph('W').PxRect(), null, 0, null);
+            //DrawBatch.Draw(fd.atlas, new FxVector(0, 0), new FxVector(0, 0), null, null, 0, null);
         }
 
         public override bool IsDraggable(int button) { return button == 0; }

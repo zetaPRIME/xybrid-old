@@ -1,0 +1,31 @@
+﻿---
+
+
+
+--- LEGEND: ---
+[ ] current priority task
+x --- done
+
+
+
+UI things {
+	[theme fontdefs]
+	[font bitmaps cached within monogame textures]
+	UI elements {
+		labels
+		containers {
+			...
+			tabbed field
+		}
+		...
+	}
+	context menus
+
+	?
+}
+project structure {
+	...
+}
+plugin framework {
+	...
+}
