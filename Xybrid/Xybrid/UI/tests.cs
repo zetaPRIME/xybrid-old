@@ -40,12 +40,8 @@ namespace Xybrid.UI {
             else d = ThemeManager.FetchDrawable("controls.button.default.idle");
             d.Draw(Parent, ViewRect);
 
-            //td.Alignment = TextAlign.Center;
-            //td.Draw(Parent, ViewRect);
-
-            Parent.Set();
-            DrawBatch.Draw(fd.Atlas, new FxVector(ViewRect.X + ViewRect.W / 2f, ViewRect.Y + ViewRect.H / 2f), null, fd.GetGlyph('W').PxRect(), null, 0, null);
-            //DrawBatch.Draw(fd.atlas, new FxVector(0, 0), new FxVector(0, 0), null, null, 0, null);
+            td.Alignment = TextAlign.Center;
+            td.Draw(Parent, ViewRect);
         }
 
         public override bool IsDraggable(int button) { return button == 0; }

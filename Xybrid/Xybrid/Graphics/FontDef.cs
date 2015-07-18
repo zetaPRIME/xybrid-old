@@ -40,7 +40,7 @@ namespace Xybrid.Graphics {
 
         public FontDef(Face face, int size) {
             const int atlasSize = 1024;
-            atlas = new RenderTarget2D(GraphicsManager.device, atlasSize, atlasSize, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+            atlas = new RenderTarget2D(GraphicsManager.device, atlasSize, atlasSize, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
             fontFace = face;
             pxSize = size;
 
@@ -50,14 +50,6 @@ namespace Xybrid.Graphics {
 
             const string defaultCharset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ!@#$%^&*()`-=~_+[]{}\\|;',./:\"<>? ";
             foreach (char c in defaultCharset) AddGlyph(c);
-        }
-
-        public Texture2D Atlas { get { return atlas; } }
-        public Rectangle GetGlyph(char c) {
-            Rectangle res;
-            if (charRects.TryGetValue(c, out res)) return res;
-            AddGlyph(c);
-            return charRects[c];
         }
 
         void AddGlyph(char c) {
@@ -135,6 +127,43 @@ namespace Xybrid.Graphics {
             texture.SetData(imgData);
 
             return texture;
+        }
+
+        public Texture2D Atlas { get { return atlas; } }
+        public Rectangle GetGlyph(char c) {
+            Rectangle res;
+            if (charRects.TryGetValue(c, out res)) return res;
+            AddGlyph(c);
+            return charRects[c];
+        }
+
+        
+
+        public PxVector MeasureLine(string line) {
+            float length = 0;
+
+            for (int i = 0; i < line.Length; i++) {
+                length += MeasureGlyph(line, i);
+            }
+
+            return new PxVector((int)Math.Ceiling(length), lineSize);
+        }
+
+        public float MeasureGlyph(string line, int index) {
+            if (index < line.Length - 1) return MeasureGlyph(line[index], line[index + 1]);
+            return MeasureGlyph(line[index]);
+        }
+        public float MeasureGlyph(char c, char next = ' ') {
+            uint cnum = fontFace.GetCharIndex(c);
+            fontFace.LoadGlyph(cnum, loadFlags, loadTarget);
+            float width = (float)fontFace.Glyph.Advance.X;
+            
+            if (!fontFace.HasKerning) return width;
+            
+            uint cnumn = fontFace.GetCharIndex(next);
+            width += (float)fontFace.GetKerning(cnum, cnumn, KerningMode.Default).X;
+
+            return width;
         }
     }
 }

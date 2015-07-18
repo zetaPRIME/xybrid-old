@@ -25,7 +25,42 @@ namespace Xybrid.Graphics {
 
         Texture2D texture = null;
 
+        public static FontDef fd = new FontDef(new Face(ftLib, "C:\\Windows\\Fonts\\segoeui.ttf"), 14);
+
         void BuildTexture() {
+            PxVector tsize = fd.MeasureLine(text);
+            if (texture != null) texture.Dispose();
+
+            if (tsize.X == 0 || tsize.Y == 0) {
+                texture = new Texture2D(GraphicsManager.device, 1, 1);
+                return;
+            }
+            RenderTarget2D rt = new RenderTarget2D(GraphicsManager.device, tsize.X, tsize.Y, false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
+            
+            RenderTarget2D pop = DrawBatch.Target;
+            PxVector popOff = DrawBatch.drawOffset;
+
+            DrawBatch.Target = rt;
+            DrawBatch.Clear(rt, new DrawColor(0f, 0f, 0f, 0f));
+            //DrawBatch.Draw(ch, rect.PxRect(), null, null);
+
+            SpriteBatch sb = DrawBatch.sb;
+            float cursor = 0;
+            for (int i = 0; i < text.Length; i++) {
+                //DrawBatch.Draw(fd.Atlas, new FxVector(cursor, 0), new FxVector(0, 0), fd.GetGlyph(text[i]).PxRect(), null, 0, null);
+                Vector2 cpos = new Vector2((float)Math.Round(cursor), 0); // pixel align on draw, but retain float accumulation
+                sb.Draw(fd.Atlas, cpos, fd.GetGlyph(text[i]), Microsoft.Xna.Framework.Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+                cursor += fd.MeasureGlyph(text, i);
+            }
+
+            DrawBatch.Target = null;
+            DrawBatch.Target = pop;
+            DrawBatch.drawOffset = popOff;
+
+            texture = rt;
+        }
+
+        void BuildTextureOld() {
             #region attribution
             // Significant parts of this method were based off the following example:
             // https://github.com/Robmaister/SharpFont/blob/master/Source/Examples/Program.cs

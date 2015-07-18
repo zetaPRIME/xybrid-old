@@ -7,6 +7,10 @@
 x --- done
 
 
+[BROKEN THINGS] {
+	non-rect DrawBatch drawing broken???
+}
+
 
 UI things {
 	[theme fontdefs]
