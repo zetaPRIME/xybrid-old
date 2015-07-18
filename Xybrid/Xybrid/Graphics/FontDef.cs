@@ -137,7 +137,7 @@ namespace Xybrid.Graphics {
             return charRects[c];
         }
 
-        
+        public void PreloadGlyphs(string line) { foreach (char c in line) GetGlyph(c); }
 
         public PxVector MeasureLine(string line) {
             float length = 0;

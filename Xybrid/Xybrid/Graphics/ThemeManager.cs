@@ -11,33 +11,47 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Ionic.Zip;
 
+using LitJson;
+
 using Xynapse.UI;
 using Xynapse.UI.Controls;
 
 namespace Xybrid.Graphics {
     public static class ThemeManager {
+        static SharpFont.Library fontLibrary = new SharpFont.Library();
+
         static Dictionary<string, Drawable> assetsDrawableDefault = new Dictionary<string, Drawable>();
+        static Dictionary<string, FontDef> assetsFontsDefault = new Dictionary<string, FontDef>();
         internal static void LoadDefault() {
             assetsDrawableDefault.Clear();
+            assetsFontsDefault.Clear();
 
             using (Stream zs = Assembly.GetExecutingAssembly().GetManifestResourceStream("Xybrid.Resources.DefaultTheme.zip")) {
                 ZipFile zip = ZipFile.Read(zs);
                 foreach (ZipEntry entry in zip) {
-                    if (!entry.FileName.ToLower().EndsWith(".png")) continue;
-                    Texture2D tex = null;
-                    using (var ms = new MemoryStream()) {
-                        entry.Extract(ms);
-                        ms.Position = 0;
-                        tex = Texture2D.FromStream(GraphicsManager.device, ms);
+                    string fname = entry.FileName.ToLower();
+                    if (fname.EndsWith(".png")) {
+                        Texture2D tex = null;
+                        using (var ms = new MemoryStream()) {
+                            entry.Extract(ms);
+                            ms.Position = 0;
+                            tex = Texture2D.FromStream(GraphicsManager.device, ms);
+                        }
+                        tex = GraphicsManager.ConvertToPreMultipliedAlphaGPU(tex);
+
+                        string name;// = entry.FileName.Substring(0, entry.FileName.Length - 4);
+                        Drawable d = ToDrawable(entry.FileName, tex, out name);
+                        assetsDrawableDefault.Add(name, d);
+
+                        //assetsDrawableDefault.Add(name.Replace('/', '.'), new DrawableTexture(tex));
                     }
-                    tex = GraphicsManager.ConvertToPreMultipliedAlphaGPU(tex);
-
-                    string name;// = entry.FileName.Substring(0, entry.FileName.Length - 4);
-                    Drawable d = ToDrawable(entry.FileName, tex, out name);
-                    assetsDrawableDefault.Add(name, d);
-
-                    //assetsDrawableDefault.Add(name.Replace('/', '.'), new DrawableTexture(tex));
-
+                    else if (fname.EndsWith(".json")) {
+                        if (fname.StartsWith("fonts/")) {
+                            string name;
+                            FontDef font = ToFontDef(entry.FileName, zip, out name);
+                            assetsFontsDefault.Add(name, font);
+                        }
+                    }
                 }
             }
         }
@@ -69,11 +83,43 @@ namespace Xybrid.Graphics {
             return new DrawableTexture(tex);
         }
 
+        static FontDef ToFontDef(string fileName, ZipFile archive, out string name) {
+            JsonData json;
+            using (MemoryStream ms = new MemoryStream()) {
+                archive[fileName].Extract(ms);
+                json = JsonMapper.ToObject(Encoding.UTF8.GetString(ms.ToArray()));
+            }
+
+            string fontFile = (string)json["file"];
+            int size = (int)json["size"];
+
+            FontDef font;
+            // find font file
+            using (MemoryStream ms = new MemoryStream()) {
+                archive["fonts/" + fontFile].Extract(ms);
+                SharpFont.Face face = new SharpFont.Face(fontLibrary, ms.ToArray(), 0);
+                font = new FontDef(face, size);
+            }
+
+            name = fileName.Substring("fonts/".Length);
+            name = name.Substring(0, name.Length - 5);
+            name = name.Replace('/', '.');
+            return font;
+        }
+
         public static Drawable FetchDrawable(string name) {
             Drawable output = null;
             //if (assetsDrawableTheme.TryGetValue(name, out output)) return output;
             if (assetsDrawableDefault.TryGetValue(name, out output)) return output;
             return null;
+        }
+
+        public static FontDef FetchFont(string name) {
+            FontDef output = null;
+            //if (assetsFontsTheme.TryGetValue(name, out output)) return output;
+            if (assetsFontsDefault.TryGetValue(name, out output)) return output;
+            if (name == "default") throw new Exception("Default font missing");
+            return FetchFont("default");
         }
 
         #region Caching etc.

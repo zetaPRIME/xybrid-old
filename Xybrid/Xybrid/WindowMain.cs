@@ -39,7 +39,7 @@ namespace Xybrid {
 
         public override PxVector DefaultSize { get { return new PxVector(854, 480); } }
         
-        public override string Title { get { return "Xybrid"; } }
+        public override string Title { get { return "Xybrid C#5 X01 xFF"; } }
 
         /*public override void Draw() {
             //ThemeManager.FetchDrawable("controls.button.default.idle").Draw(this, this.ViewportRect);

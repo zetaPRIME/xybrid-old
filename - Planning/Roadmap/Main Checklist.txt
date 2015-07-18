@@ -7,14 +7,14 @@
 x --- done
 
 
-[BROKEN THINGS] {
-	non-rect DrawBatch drawing broken???
+[FIX BROKEN THINGS] {
+	x non-rect DrawBatch drawing broken??? nope, me being an idiot
 }
 
 
 UI things {
 	[theme fontdefs]
-	[font bitmaps cached within monogame textures]
+	x [font bitmaps cached within monogame textures]
 	UI elements {
 		labels
 		containers {

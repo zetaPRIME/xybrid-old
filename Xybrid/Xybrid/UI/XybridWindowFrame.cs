@@ -33,7 +33,7 @@ namespace Xybrid.UI {
                     if (frame.form.WindowState == System.Windows.Forms.FormWindowState.Maximized) frame.form.WindowState = System.Windows.Forms.FormWindowState.Normal;
                     else frame.form.WindowState = System.Windows.Forms.FormWindowState.Maximized;
                 });
-                buttonMaximize.Text = "[ ]";
+                buttonMaximize.Text = " [ ] ";
                 buttonMinimize = AddChild(new Button()).OnButtonClick(0, () => frame.form.WindowState = System.Windows.Forms.FormWindowState.Minimized);
                 buttonMinimize.Text = " _ ";
 

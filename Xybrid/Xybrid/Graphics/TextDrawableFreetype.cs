@@ -25,9 +25,11 @@ namespace Xybrid.Graphics {
 
         Texture2D texture = null;
 
-        public static FontDef fd = new FontDef(new Face(ftLib, "C:\\Windows\\Fonts\\segoeui.ttf"), 14);
+        //public static FontDef fd = new FontDef(new Face(ftLib, "C:\\Windows\\Fonts\\segoeui.ttf"), 14);
 
         void BuildTexture() {
+            FontDef fd = ThemeManager.FetchFont("default");
+
             PxVector tsize = fd.MeasureLine(text);
             if (texture != null) texture.Dispose();
 
@@ -41,15 +43,13 @@ namespace Xybrid.Graphics {
             PxVector popOff = DrawBatch.drawOffset;
 
             DrawBatch.Target = rt;
+            DrawBatch.drawOffset = new PxVector(0, 0);
             DrawBatch.Clear(rt, new DrawColor(0f, 0f, 0f, 0f));
-            //DrawBatch.Draw(ch, rect.PxRect(), null, null);
-
-            SpriteBatch sb = DrawBatch.sb;
+            
             float cursor = 0;
             for (int i = 0; i < text.Length; i++) {
-                //DrawBatch.Draw(fd.Atlas, new FxVector(cursor, 0), new FxVector(0, 0), fd.GetGlyph(text[i]).PxRect(), null, 0, null);
                 Vector2 cpos = new Vector2((float)Math.Round(cursor), 0); // pixel align on draw, but retain float accumulation
-                sb.Draw(fd.Atlas, cpos, fd.GetGlyph(text[i]), Microsoft.Xna.Framework.Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+                DrawBatch.Draw(fd.Atlas, cpos.FxVector(), new FxVector(0, 0), fd.GetGlyph(text[i]).PxRect(), Microsoft.Xna.Framework.Color.White.DrawColor(), 0f, new FxVector(1, 1));
                 cursor += fd.MeasureGlyph(text, i);
             }
 
