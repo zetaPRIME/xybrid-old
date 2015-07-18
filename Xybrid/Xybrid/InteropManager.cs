@@ -15,6 +15,7 @@ namespace Xybrid {
     public static class InteropManager {
         private class XybridHost : HostInterop {
             public override Drawable LoadThemeImage(string name) { return ThemeManager.FetchDrawable(name); }
+            public override TextDrawable GetTextDrawable(string font = default, TextAlign align = TextAlign.Left) { return new TextDrawableFreetype(font, "", align); }
 
             public override DrawableCanvas GetCanvas(int width, int height) { return new Canvas(width, height); }
 

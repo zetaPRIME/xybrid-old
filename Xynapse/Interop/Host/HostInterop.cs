@@ -16,6 +16,7 @@ namespace Xynapse.Interop.Host {
 
         public virtual Drawable LoadThemeImage(string name) { return Drawable.None; }
         public virtual Drawable LoadPluginImage(string name, Assembly plugin) { return Drawable.None; }
+        public virtual TextDrawable GetTextDrawable(string font = default, TextAlign align = TextAlign.Left) { return null; }
 
         public virtual DrawableCanvas GetCanvas(int width, int height) { return null; }
 

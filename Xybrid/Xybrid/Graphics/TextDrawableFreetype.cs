@@ -20,17 +20,20 @@ namespace Xybrid.Graphics {
         public static Library ftLib = new Library();
 
         string text = "";
+        string font = "default";
         TextAlign align = TextAlign.Left;
         bool dirty = true;
 
         Texture2D texture = null;
 
-        //public static FontDef fd = new FontDef(new Face(ftLib, "C:\\Windows\\Fonts\\segoeui.ttf"), 14);
+        public TextDrawableFreetype(string font = "default", string text = "", TextAlign align = TextAlign.Left) {
+            this.text = text; this.font = font; this.align = align;
+        }
 
         void BuildTexture() {
-            FontDef fd = ThemeManager.FetchFont("default");
+            FontDef font = ThemeManager.FetchFont(this.font);
 
-            PxVector tsize = fd.MeasureLine(text);
+            PxVector tsize = font.MeasureLine(text);
             if (texture != null) texture.Dispose();
 
             if (tsize.X == 0 || tsize.Y == 0) {
@@ -49,8 +52,8 @@ namespace Xybrid.Graphics {
             float cursor = 0;
             for (int i = 0; i < text.Length; i++) {
                 Vector2 cpos = new Vector2((float)Math.Round(cursor), 0); // pixel align on draw, but retain float accumulation
-                DrawBatch.Draw(fd.Atlas, cpos.FxVector(), new FxVector(0, 0), fd.GetGlyph(text[i]).PxRect(), Microsoft.Xna.Framework.Color.White.DrawColor(), 0f, new FxVector(1, 1));
-                cursor += fd.MeasureGlyph(text, i);
+                DrawBatch.Draw(font.Atlas, cpos.FxVector(), new FxVector(0, 0), font.GetGlyph(text[i]).PxRect(), Microsoft.Xna.Framework.Color.White.DrawColor(), 0f, new FxVector(1, 1));
+                cursor += font.MeasureGlyph(text, i);
             }
 
             DrawBatch.Target = null;
@@ -172,9 +175,10 @@ namespace Xybrid.Graphics {
         }
 
         public override string Text { get { return text; } set { if (value == text) return; dirty = true; text = value; } }
+        public override string Font { get { return font; } set { if (value == font) return; dirty = true; font = value; } }
         //public override TextAlign Alignment { get { return align; } set { if (value == align) return; dirty = true; align = value; } }
         public override TextAlign Alignment { get { return align; } set { align = value; } }
-
+        
         public override void Draw(DrawContext context, PxRect rect, PxRect? sampleRect = null, DrawColor? color = null) {
             if (dirty) { BuildTexture(); dirty = false; }
             context.Set();

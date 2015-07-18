@@ -80,7 +80,6 @@ namespace Xybrid.Graphics {
             
             FTBitmap ftb = fontFace.Glyph.Bitmap; // lol ftb
             Bitmap cb = ftb.ToGdipBitmap(System.Drawing.Color.White);
-            //g.DrawImageUnscaled(cb, (int)Math.Round((float)fontFace.Glyph.BitmapLeft), (int)Math.Round((lineSize * 0.25 + h) - (float)fontFace.Glyph.BitmapTop)); // th and not bitmap.height
             g.DrawImageUnscaled(cb, (int)Math.Round((float)fontFace.Glyph.BitmapLeft), (int)Math.Round(lineSize * 0.75 - (float)fontFace.Glyph.BitmapTop));
 
             g.Dispose();

@@ -13,7 +13,7 @@ x --- done
 
 
 UI things {
-	[theme fontdefs]
+	x [theme fontdefs]
 	x [font bitmaps cached within monogame textures]
 	UI elements {
 		labels

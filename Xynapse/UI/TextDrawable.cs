@@ -14,6 +14,7 @@ namespace Xynapse.UI {
 
     public abstract class TextDrawable : Drawable {
         public abstract string Text { get; set; }
+        public virtual string Font { get { return "default"; } set { } }
         public abstract TextAlign Alignment { get; set; }
     }
 }
