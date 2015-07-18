@@ -8,13 +8,11 @@ x --- done
 
 
 [FIX BROKEN THINGS] {
-	x non-rect DrawBatch drawing broken??? nope, me being an idiot
+	//
 }
 
 
 UI things {
-	x [theme fontdefs]
-	x [font bitmaps cached within monogame textures]
 	UI elements {
 		labels
 		containers {
@@ -27,8 +25,13 @@ UI things {
 
 	?
 }
+playback attributes {
+	bpm, rows/beat, ticks/row, sample rate
+	samples-per-tick cycle
+	playback attributes and thread in Xybrid.Tracker.Playback class?
+}
 project structure {
-	...
+	patterns, etc.
 }
 plugin framework {
 	...
